@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2024 Tu Nombre
+ * MIT License
+ */
 package com.comerbien.backend;
 
 import org.springframework.boot.SpringApplication;
