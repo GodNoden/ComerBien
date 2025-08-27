@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddRecipe from "./pages/AddRecipe";
+import FoodFacts from "./pages/FoodFacts";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/recipe/:id" element={<RecipeDetail />} />
           <Route path="/weekly-menu" element={<WeeklyMenu />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/food-facts" element={<FoodFacts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
