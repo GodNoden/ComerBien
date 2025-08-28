@@ -22,6 +22,7 @@ export interface Recipe {
     carbs: number;
     fat: number;
     tags: string[];
+    ingredients: string[];
 }
 
 export interface DayMeals {

@@ -29,11 +29,17 @@ const InfoPopup = () => {
   const randomFact = foodFacts[Math.floor(Math.random() * foodFacts.length)];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 1500);
+    const lastShown = localStorage.getItem('foodtrack_tip_shown');
+    const today = new Date().toDateString();
+    
+    if (lastShown !== today) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+        localStorage.setItem('foodtrack_tip_shown', today);
+      }, 1500);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (

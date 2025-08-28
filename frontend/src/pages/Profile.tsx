@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 
 const commonAllergens = [
@@ -49,11 +50,27 @@ const Profile = () => {
         height: '',
         weight: '',
         gender: '',
-        activityLevel: ''
+        activityLevel: '',
+        weightGoal: 'maintain' // gain, lose, maintain
     });
 
+    // Load existing profile data on component mount
+    useEffect(() => {
+        const savedProfile = localStorage.getItem('userProfile');
+        if (savedProfile) {
+            try {
+                const profileData = JSON.parse(savedProfile);
+                if (profileData.allergies) setAllergies(profileData.allergies);
+                if (profileData.dislikes) setDislikes(profileData.dislikes);
+                if (profileData.personalInfo) setPersonalInfo(profileData.personalInfo);
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+    }, []);
+
     const calculateRecommendedCalories = () => {
-        const { age, height, weight, gender, activityLevel } = personalInfo;
+        const { age, height, weight, gender, activityLevel, weightGoal } = personalInfo;
 
         if (!age || !height || !weight || !gender || !activityLevel) {
             return 0;
@@ -76,7 +93,16 @@ const Profile = () => {
             'extreme': 1.9
         };
 
-        return Math.round(bmr * activityFactors[activityLevel]);
+        let maintenanceCalories = Math.round(bmr * activityFactors[activityLevel]);
+
+        // Adjust calories based on weight goal
+        if (weightGoal === 'lose') {
+            maintenanceCalories -= 500; // 1 lb per week loss
+        } else if (weightGoal === 'gain') {
+            maintenanceCalories += 500; // 1 lb per week gain
+        }
+
+        return maintenanceCalories;
     };
 
     const handleAllergyChange = (allergen: string, checked: boolean) => {
@@ -100,20 +126,40 @@ const Profile = () => {
     };
 
     const handleSave = () => {
-        // Save to localStorage for now
-        localStorage.setItem('userProfile', JSON.stringify({
+        const profileData = {
             allergies,
             dislikes,
             personalInfo,
-            recommendedCalories: calculateRecommendedCalories()
-        }));
+            recommendedCalories: calculateRecommendedCalories(),
+            lastSaved: new Date().toISOString()
+        };
 
-        console.log('Profile saved:', { allergies, dislikes, personalInfo });
+        // Save to localStorage
+        localStorage.setItem('userProfile', JSON.stringify(profileData));
+
+        console.log('Profile saved:', profileData);
 
         toast({
-            title: "Preferences saved",
-            description: "Your dietary preferences and personal information have been updated successfully.",
+            title: "Profile saved successfully!",
+            description: "Your preferences and data have been saved. You won't need to re-enter them next time.",
         });
+    };
+
+    const hasUnsavedChanges = () => {
+        const savedProfile = localStorage.getItem('userProfile');
+        if (!savedProfile) return true;
+
+        try {
+            const saved = JSON.parse(savedProfile);
+            return JSON.stringify({ allergies, dislikes, personalInfo }) !==
+                JSON.stringify({
+                    allergies: saved.allergies || [],
+                    dislikes: saved.dislikes || [],
+                    personalInfo: saved.personalInfo || {}
+                });
+        } catch {
+            return true;
+        }
     };
 
     const recommendedCalories = calculateRecommendedCalories();
@@ -133,9 +179,15 @@ const Profile = () => {
                             </Button>
                             <h1 className="text-xl font-semibold text-gray-900">Profile Settings</h1>
                         </div>
-                        <Button onClick={handleSave} className="bg-food-purple hover:bg-food-purple/90">
+                        <Button
+                            onClick={handleSave}
+                            className={`${hasUnsavedChanges()
+                                ? 'bg-primary hover:bg-primary/90'
+                                : 'bg-green-600 hover:bg-green-700'
+                                }`}
+                        >
                             <Save className="h-4 w-4 mr-2" />
-                            Save Changes
+                            {hasUnsavedChanges() ? 'Save Changes' : 'Saved ✓'}
                         </Button>
                     </div>
                 </div>
@@ -217,11 +269,41 @@ const Profile = () => {
                                 </Select>
                             </div>
 
+                            <div>
+                                <Label>Weight Goal</Label>
+                                <RadioGroup
+                                    value={personalInfo.weightGoal}
+                                    onValueChange={(value) => handlePersonalInfoChange('weightGoal', value)}
+                                    className="mt-2"
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="lose" id="lose" />
+                                        <label htmlFor="lose" className="text-sm font-medium">Lose Weight (-500 cal/day)</label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="maintain" id="maintain" />
+                                        <label htmlFor="maintain" className="text-sm font-medium">Maintain Weight</label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="gain" id="gain" />
+                                        <label htmlFor="gain" className="text-sm font-medium">Gain Weight (+500 cal/day)</label>
+                                    </div>
+                                </RadioGroup>
+                            </div>
+
                             {recommendedCalories > 0 && (
-                                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                                    <h4 className="font-medium text-green-800 mb-1">Recommended Daily Calories</h4>
-                                    <p className="text-2xl font-bold text-green-600">{recommendedCalories} calories</p>
-                                    <p className="text-sm text-green-700 mt-1">Based on your personal information and activity level</p>
+                                <div className="bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-lg border border-blue-200">
+                                    <h4 className="font-medium text-blue-800 mb-1">
+                                        {personalInfo.weightGoal === 'lose' && 'Weight Loss Goal'}
+                                        {personalInfo.weightGoal === 'gain' && 'Weight Gain Goal'}
+                                        {personalInfo.weightGoal === 'maintain' && 'Maintenance Goal'}
+                                    </h4>
+                                    <p className="text-2xl font-bold text-blue-600">{recommendedCalories} calories/day</p>
+                                    <p className="text-sm text-blue-700 mt-1">
+                                        {personalInfo.weightGoal === 'lose' && 'For healthy 1 lb/week weight loss'}
+                                        {personalInfo.weightGoal === 'gain' && 'For healthy 1 lb/week weight gain'}
+                                        {personalInfo.weightGoal === 'maintain' && 'To maintain your current weight'}
+                                    </p>
                                 </div>
                             )}
                         </CardContent>
@@ -323,7 +405,7 @@ const Profile = () => {
                             )}
 
                             {dislikes.length > 0 && (
-                                <div>
+                                <div className="mb-4">
                                     <h4 className="font-medium text-orange-600 mb-2">Food Dislikes:</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {dislikes.map((dislike) => (
@@ -340,6 +422,41 @@ const Profile = () => {
                         </CardContent>
                     </Card>
                 )}
+
+                {/* Save Section */}
+                <Card className="mt-6 bg-gradient-to-r from-blue-50 to-green-50 border-blue-200">
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">Save Your Profile</h3>
+                                <p className="text-sm text-gray-600">
+                                    {hasUnsavedChanges()
+                                        ? "You have unsaved changes. Click save to store your preferences permanently."
+                                        : "Your profile is saved. All your preferences will be remembered when you return."
+                                    }
+                                </p>
+                            </div>
+                            <div className="flex gap-3">
+                                {hasUnsavedChanges() && (
+                                    <div className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+                                        Unsaved Changes
+                                    </div>
+                                )}
+                                <Button
+                                    onClick={handleSave}
+                                    size="lg"
+                                    className={`${hasUnsavedChanges()
+                                        ? 'bg-primary hover:bg-primary/90 shadow-lg'
+                                        : 'bg-green-600 hover:bg-green-700'
+                                        }`}
+                                >
+                                    <Save className="h-5 w-5 mr-2" />
+                                    {hasUnsavedChanges() ? 'Save All Changes' : 'Profile Saved ✓'}
+                                </Button>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );

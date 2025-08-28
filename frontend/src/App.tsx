@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import RecipeDetail from "./pages/RecipeDetail";
@@ -13,36 +14,32 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddRecipe from "./pages/AddRecipe";
 import FoodFacts from "./pages/FoodFacts";
-import { AuthProvider } from './contexts/AuthContext';
-import React from "react";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/add-recipe" element={<AddRecipe />} />
-              <Route path="/recipe/:id" element={<RecipeDetail />} />
-              <Route path="/weekly-menu" element={<WeeklyMenu />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/food-facts" element={<FoodFacts />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/add-recipe" element={<AddRecipe />} />
+            <Route path="/recipe/:id" element={<RecipeDetail />} />
+            <Route path="/weekly-menu" element={<WeeklyMenu />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/food-facts" element={<FoodFacts />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
     </AuthProvider>
-  </React.StrictMode>
+  </QueryClientProvider>
 );
 
 export default App;
