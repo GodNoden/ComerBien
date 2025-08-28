@@ -1,14 +1,14 @@
 
-// export interface Recipe {
-//     id: number;
-//     title: string;
-//     image: string;
-//     calories: number;
-//     protein: number;
-//     carbs: number;
-//     fat: number;
-//     ingredients: string[];
-// }
+export interface Recipe2 {
+    id: number;
+    title: string;
+    image: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    ingredients: string[];
+}
 
 export interface Recipe {
     id: number;
@@ -21,7 +21,6 @@ export interface Recipe {
     protein: number;
     carbs: number;
     fat: number;
-    ingredients: string[];
     tags: string[];
 }
 
