@@ -44,14 +44,13 @@ const Register = () => {
 
         setLoading(true);
         try {
-            const user = await authService.register({
+            const response = await authService.register({
                 username: formData.username,
                 email: formData.email,
                 password: formData.password
             });
 
-            // Iniciar sesión automáticamente después del registro
-            login(user);
+            login(response.user, response.token);
             navigate('/');
         } catch (err: unknown) {
             if (err instanceof Error) {

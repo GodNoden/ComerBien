@@ -1,7 +1,7 @@
 const API_BASE_URL = 'http://localhost:8081/api';
 
 export const authService = {
-  async register(userData: { username: string; email: string; password: string }) {
+  async register(userData: { username: string; email: string; password: string; }) {
     const response = await fetch(`${API_BASE_URL}/users`, {
       method: 'POST',
       headers: {
@@ -15,10 +15,10 @@ export const authService = {
       throw new Error(errorData.message || 'Registration failed');
     }
 
-    return response.json();
+    return response.json(); // Ahora devolverá { token, user }
   },
 
-  async login(credentials: { email: string; password: string }) {
+  async login(credentials: { email: string; password: string; }) {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
