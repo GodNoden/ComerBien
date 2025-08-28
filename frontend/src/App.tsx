@@ -13,30 +13,36 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddRecipe from "./pages/AddRecipe";
 import FoodFacts from "./pages/FoodFacts";
+import { AuthProvider } from './contexts/AuthContext';
+import React from "react";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/add-recipe" element={<AddRecipe />} />
-          <Route path="/recipe/:id" element={<RecipeDetail />} />
-          <Route path="/weekly-menu" element={<WeeklyMenu />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/food-facts" element={<FoodFacts />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <React.StrictMode>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/add-recipe" element={<AddRecipe />} />
+              <Route path="/recipe/:id" element={<RecipeDetail />} />
+              <Route path="/weekly-menu" element={<WeeklyMenu />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/food-facts" element={<FoodFacts />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </AuthProvider>
+  </React.StrictMode>
 );
 
 export default App;

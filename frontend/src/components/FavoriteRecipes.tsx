@@ -1,95 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import RecipeCard from './RecipeCard';
-
-// This would come from the same data source as FeaturedRecipes in a real app
-const allRecipes = [
-    {
-        id: 1,
-        title: 'Greek Yogurt Pancakes',
-        time: '20 mins',
-        difficulty: 'easy' as const,
-        image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1000',
-        category: 'Breakfast',
-        calories: 220,
-        protein: 12,
-        carbs: 28,
-        fat: 8,
-        tags: ['high protein', 'vegetarian']
-    },
-    {
-        id: 2,
-        title: 'Teriyaki Salmon Bowl',
-        time: '30 mins',
-        difficulty: 'medium' as const,
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000',
-        category: 'Lunch',
-        calories: 450,
-        protein: 35,
-        carbs: 42,
-        fat: 15,
-        tags: ['high protein', 'low carb']
-    },
-    {
-        id: 3,
-        title: 'Margherita Pizza',
-        time: '45 mins',
-        difficulty: 'medium' as const,
-        image: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?q=80&w=1000',
-        category: 'Dinner',
-        calories: 285,
-        protein: 12,
-        carbs: 34,
-        fat: 13,
-        tags: ['vegetarian', 'high carb']
-    },
-    {
-        id: 4,
-        title: 'Chocolate Avocado Mousse',
-        time: '15 mins',
-        difficulty: 'easy' as const,
-        image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1000',
-        category: 'Dessert',
-        calories: 180,
-        protein: 3,
-        carbs: 18,
-        fat: 12,
-        tags: ['vegetarian', 'high fat', 'low carb']
-    },
-    {
-        id: 5,
-        title: 'Shakshuka',
-        time: '25 mins',
-        difficulty: 'medium' as const,
-        image: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1000',
-        category: 'Breakfast',
-        calories: 240,
-        protein: 14,
-        carbs: 18,
-        fat: 13,
-        tags: ['vegetarian', 'high protein']
-    },
-    {
-        id: 6,
-        title: 'Beef Wellington',
-        time: '2 hours',
-        difficulty: 'hard' as const,
-        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1000',
-        category: 'Dinner',
-        calories: 650,
-        protein: 42,
-        carbs: 28,
-        fat: 40,
-        tags: ['high protein', 'high fat']
-    }
-];
+import { useAuth } from '@/contexts/AuthContext';
+import { favoriteService } from '@/services/favoriteService';
+import { Recipe } from '@/types/menu';
 
 interface FavoriteRecipesProps {
     onAddToWeeklyMenu?: (recipeId: number, recipeTitle: string) => void;
 }
 
 const FavoriteRecipes = ({ onAddToWeeklyMenu }: FavoriteRecipesProps) => {
-    const favoriteIds = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-    const favoriteRecipes = allRecipes.filter(recipe => favoriteIds.includes(recipe.id));
+    const [favoriteRecipes, setFavoriteRecipes] = useState<Recipe[]>([]);
+    const { user, token, isAuthenticated, login, logout } = useAuth();
+
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            loadFavorites();
+        }
+    }, [isAuthenticated, user]);
+
+    if (!isAuthenticated) {
+        return (
+            <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">Please log in to view your favorites</p>
+            </div>
+        );
+    }
+
+    const loadFavorites = async () => {
+        try {
+            const favorites = await favoriteService.getFavorites(user.id);
+            setFavoriteRecipes(favorites);
+        } catch (error) {
+            console.error('Error loading favorites:', error);
+        }
+    };
+
+    const handleToggleFavorite = async (recipeId: number) => {
+        if (!user) return;
+
+        try {
+            await favoriteService.removeFavorite(user.id, recipeId);
+            setFavoriteRecipes(prev => prev.filter(recipe => recipe.id !== recipeId));
+        } catch (error) {
+            console.error('Error removing favorite:', error);
+        }
+    };
 
     if (favoriteRecipes.length === 0) {
         return (
@@ -105,17 +60,9 @@ const FavoriteRecipes = ({ onAddToWeeklyMenu }: FavoriteRecipesProps) => {
             {favoriteRecipes.map((recipe) => (
                 <RecipeCard
                     key={recipe.id}
-                    id={recipe.id}
-                    title={recipe.title}
-                    time={recipe.time}
-                    difficulty={recipe.difficulty}
-                    image={recipe.image}
-                    category={recipe.category}
-                    calories={recipe.calories}
-                    protein={recipe.protein}
-                    carbs={recipe.carbs}
-                    fat={recipe.fat}
-                    tags={recipe.tags}
+                    {...recipe}
+                    isFavorite={true}
+                    onToggleFavorite={handleToggleFavorite}
                     onAddToWeeklyMenu={onAddToWeeklyMenu}
                 />
             ))}

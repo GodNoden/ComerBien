@@ -1,10 +1,12 @@
 package com.comerbien.backend.controllers;
 
 import com.comerbien.backend.entities.User;
+import com.comerbien.backend.repositories.UserRepository;
 import com.comerbien.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,12 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -28,7 +36,8 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @DeleteMapping("/{id}")

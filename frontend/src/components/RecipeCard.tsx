@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +25,8 @@ interface RecipeCardProps {
     carbs?: number;
     fat?: number;
     tags?: string[];
+    isFavorite: boolean;
+    onToggleFavorite: (recipeId: number) => void;
     onAddToWeeklyMenu?: (recipeId: number, recipeTitle: string) => void;
 }
 
@@ -41,13 +42,11 @@ const RecipeCard = ({
     carbs,
     fat,
     tags = [],
+    isFavorite,
+    onToggleFavorite,
     onAddToWeeklyMenu
 }: RecipeCardProps) => {
     const { toast } = useToast();
-    const [isFavorite, setIsFavorite] = useState(() => {
-        const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-        return favorites.includes(id);
-    });
 
     const difficultyColor = {
         easy: 'bg-green-100 text-green-800',
@@ -70,25 +69,12 @@ const RecipeCard = ({
         e.preventDefault();
         e.stopPropagation();
 
-        const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-        let newFavorites;
+        onToggleFavorite(id);
 
-        if (isFavorite) {
-            newFavorites = favorites.filter((favId: number) => favId !== id);
-            toast({
-                title: "Removed from favorites",
-                description: `${title} has been removed from your favorites.`,
-            });
-        } else {
-            newFavorites = [...favorites, id];
-            toast({
-                title: "Added to favorites",
-                description: `${title} has been added to your favorites.`,
-            });
-        }
-
-        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
-        setIsFavorite(!isFavorite);
+        toast({
+            title: isFavorite ? "Removed from favorites" : "Added to favorites",
+            description: `${title} has been ${isFavorite ? 'removed from' : 'added to'} your favorites.`,
+        });
     };
 
     const addToWeeklyMenu = (e: React.MouseEvent) => {

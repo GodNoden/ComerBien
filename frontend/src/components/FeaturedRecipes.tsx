@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RecipeCard from './RecipeCard';
 import FavoriteRecipes from './FavoriteRecipes';
 import RecipeSort from './RecipeSort';
 import AddToWeeklyMenuDialog from './AddToWeeklyMenuDialog';
+import { useAuth } from '@/contexts/AuthContext'; // Asume que tienes un contexto de autenticación
+import { favoriteService } from '@/services/favoriteService';
+//import { Recipe } from '@/types/menu';
 
 // Define Recipe interface
 interface Recipe {
@@ -19,6 +22,8 @@ interface Recipe {
   fat: number;
   tags: string[];
 }
+
+
 
 // Updated sample recipe data with macros and tags
 const recipes: Recipe[] = [
@@ -103,6 +108,7 @@ const recipes: Recipe[] = [
 ];
 
 const FeaturedRecipes = () => {
+
   const [activeTab, setActiveTab] = useState('all');
   const [sortBy, setSortBy] = useState('all');
   const [addToMenuDialog, setAddToMenuDialog] = useState({
@@ -110,6 +116,49 @@ const FeaturedRecipes = () => {
     recipeTitle: '',
     recipeId: 0
   });
+  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
+  const { user, isAuthenticated } = useAuth();
+
+  // Cargar favoritos cuando el usuario cambie
+  useEffect(() => {
+    if (user) {
+      loadFavorites();
+    }
+  }, [user]);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500 text-lg">Please log in to view your favorites</p>
+      </div>
+    );
+  }
+
+  const loadFavorites = async () => {
+    try {
+      const favorites = await favoriteService.getFavorites(user.id);
+      setFavoriteIds(favorites.map(recipe => recipe.id));
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    }
+  };
+
+  const handleToggleFavorite = async (recipeId: number) => {
+    if (!user) return;
+
+    try {
+      const isCurrentlyFavorite = favoriteIds.includes(recipeId);
+      if (isCurrentlyFavorite) {
+        await favoriteService.removeFavorite(user.id, recipeId);
+        setFavoriteIds(prev => prev.filter(id => id !== recipeId));
+      } else {
+        await favoriteService.addFavorite(user.id, recipeId);
+        setFavoriteIds(prev => [...prev, recipeId]);
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  };
 
   const filterAndSortRecipes = (recipesToFilter: Recipe[]) => {
     let filtered = [...recipesToFilter];
@@ -169,17 +218,9 @@ const FeaturedRecipes = () => {
             {filteredRecipes.map((recipe) => (
               <RecipeCard
                 key={recipe.id}
-                id={recipe.id}
-                title={recipe.title}
-                time={recipe.time}
-                difficulty={recipe.difficulty}
-                image={recipe.image}
-                category={recipe.category}
-                calories={recipe.calories}
-                protein={recipe.protein}
-                carbs={recipe.carbs}
-                fat={recipe.fat}
-                tags={recipe.tags}
+                {...recipe}
+                isFavorite={favoriteIds.includes(recipe.id)}
+                onToggleFavorite={handleToggleFavorite}
                 onAddToWeeklyMenu={handleAddToWeeklyMenu}
               />
             ))}
