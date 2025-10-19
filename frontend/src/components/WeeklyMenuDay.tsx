@@ -53,16 +53,16 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
 
   const dayTotals = calculateDayTotals();
 
-  const renderMealSection = (mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack', title: string) => {
+  const renderMealSection = (mealType: 'desayuno' | 'comida' | 'cena' | 'snack', title: string) => {
     // Add null check for dayMeals and specific meal type
     const meals = dayMeals?.[mealType] || [];
     
     const getMealIcon = () => {
       switch (mealType) {
-        case 'breakfast': return '🌅';
-        case 'lunch': return '☀️';
-        case 'dinner': return '🌙';
-        case 'snack': return '🍎';
+        case 'desayuno': return '';
+        case 'comida': return '';
+        case 'cena': return '';
+        case 'snack': return '';
         default: return '🍽️';
       }
     };
@@ -140,9 +140,9 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
 
   return (
     <div className="space-y-4">
-      {renderMealSection('breakfast', 'Breakfast')}
-      {renderMealSection('lunch', 'Lunch')}
-      {renderMealSection('dinner', 'Dinner')}
+      {renderMealSection('desayuno', 'Desayuno')}
+      {renderMealSection('comida', 'Comida')}
+      {renderMealSection('cena', 'Cena')}
       {renderMealSection('snack', 'Snack')}
     </div>
   );

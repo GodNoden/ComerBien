@@ -13,29 +13,29 @@ const Index = () => {
 
   const nutritionTips = [
     {
-      title: "Orange Juice vs Whole Orange",
-      fact: "Orange juice is mainly sugar. Consider eating the whole orange if you want to enjoy this delicious fruit!",
-      source: "Harvard T.H. Chan School of Public Health"
+      title: "Poder del Aguacate Mexicano",
+      fact: "El aguacate es una fuente excelente de grasas saludables, fibra y potasio. Un aguacate mediano aporta el 20% del potasio diario requerido.",
+      source: "Instituto Nacional de Ciencias Médicas y Nutrición"
     },
     {
-      title: "Nuts Nutrition Power",
-      fact: "A handful of nuts (about 1 oz) contains around 160-200 calories but provides healthy fats and protein.",
-      source: "American Heart Association"
+      title: "Beneficios del Chile",
+      fact: "Los chiles contienen capsaicina, que acelera el metabolismo y puede ayudar a quemar hasta 50 calorías adicionales por día.",
+      source: "Universidad Nacional Autónoma de México"
     },
     {
-      title: "Greek Yogurt Benefits",
-      fact: "Greek yogurt has twice the protein of regular yogurt, making it a more filling snack option.",
-      source: "Mayo Clinic"
+      title: "Frijoles: Proteína Completa",
+      fact: "Los frijoles combinados con maíz forman una proteína completa, proporcionando todos los aminoácidos esenciales.",
+      source: "Secretaría de Salud México"
     },
     {
-      title: "Fiber for Fullness",
-      fact: "Foods high in fiber help you feel full longer and can aid in weight management.",
-      source: "Academy of Nutrition and Dietetics"
+      title: "Nopal: Súper Alimento Mexicano",
+      fact: "El nopal es rico en fibra, antioxidantes y ayuda a controlar los niveles de azúcar en la sangre naturalmente.",
+      source: "Instituto Mexicano del Seguro Social"
     },
     {
-      title: "Hydration Matters",
-      fact: "Sometimes when you think you're hungry, you might actually just be thirsty. Try drinking water first!",
-      source: "Mayo Clinic"
+      title: "Cacao Mexicano Original",
+      fact: "El cacao puro mexicano es rico en flavonoides que mejoran la salud cardiovascular y la función cerebral.",
+      source: "CONACYT - Centro de Investigación en Alimentación"
     }
   ];
 
@@ -65,7 +65,7 @@ const Index = () => {
                 <Lightbulb className="h-6 w-6 text-amber-600" />
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-primary group-hover:text-primary/90 transition-colors">
-                Nutrition Tip of the Day
+                Consejo Nutricional del Día
               </h1>
             </div>
             <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 max-w-3xl mx-auto shadow-lg group-hover:shadow-xl transition-shadow">
@@ -74,9 +74,9 @@ const Index = () => {
                 {currentTip.fact}
               </p>
               <div className="flex items-center justify-center gap-2 text-sm text-primary font-medium group-hover:text-primary/80 transition-colors">
-                <span>Source: {currentTip.source}</span>
+                <span>Fuente: {currentTip.source}</span>
                 <div className="flex items-center gap-1">
-                  <span>View all facts</span>
+                  <span>Ver todos los consejos</span>
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>

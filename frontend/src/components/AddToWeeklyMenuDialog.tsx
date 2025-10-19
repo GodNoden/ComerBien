@@ -26,8 +26,8 @@ interface AddToWeeklyMenuDialogProps {
     recipeId: number;
 }
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const mealTypes = ['breakfast', 'lunch', 'dinner', 'snack'];
+    const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+const mealTypes = ['desayuno', 'comida', 'cena', 'snack'];
 
 const AddToWeeklyMenuDialog = ({ isOpen, onClose, recipeTitle, recipeId }: AddToWeeklyMenuDialogProps) => {
     const [selectedDay, setSelectedDay] = useState<string>('');
@@ -49,7 +49,7 @@ const AddToWeeklyMenuDialog = ({ isOpen, onClose, recipeTitle, recipeId }: AddTo
 
         // Ensure the day exists
         if (!existingMealPlan[selectedDay]) {
-            existingMealPlan[selectedDay] = { breakfast: [], lunch: [], dinner: [], snack: [] };
+            existingMealPlan[selectedDay] = { desayuno: [], comida: [], cena: [], snack: [] };
         }
 
         // Add recipe ID to the selected meal type
@@ -76,17 +76,17 @@ const AddToWeeklyMenuDialog = ({ isOpen, onClose, recipeTitle, recipeId }: AddTo
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Add to Weekly Menu</DialogTitle>
+                    <DialogTitle>Añadir al menu semanal</DialogTitle>
                     <DialogDescription>
-                        Choose when you'd like to have "{recipeTitle}" in your weekly menu.
+                        Elige que día te gustaría añadir "{recipeTitle}" en tu menu semanal.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                        <Label htmlFor="day">Day of the week</Label>
+                        <Label htmlFor="day">Día de la semana</Label>
                         <Select value={selectedDay} onValueChange={setSelectedDay}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select a day" />
+                                <SelectValue placeholder="Selecciona un día" />
                             </SelectTrigger>
                             <SelectContent>
                                 {days.map((day) => (
@@ -98,10 +98,10 @@ const AddToWeeklyMenuDialog = ({ isOpen, onClose, recipeTitle, recipeId }: AddTo
                         </Select>
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="meal-type">Meal type</Label>
+                        <Label htmlFor="meal-type">Tipo de comida</Label>
                         <Select value={selectedMealType} onValueChange={setSelectedMealType}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Select meal type" />
+                                <SelectValue placeholder="Selecciona el tipo de comida" />
                             </SelectTrigger>
                             <SelectContent>
                                 {mealTypes.map((mealType) => (
@@ -115,10 +115,10 @@ const AddToWeeklyMenuDialog = ({ isOpen, onClose, recipeTitle, recipeId }: AddTo
                 </div>
                 <DialogFooter>
                     <Button variant="outline" onClick={onClose}>
-                        Cancel
+                        Cancelar
                     </Button>
                     <Button onClick={handleAddToMenu}>
-                        Add to Menu
+                        Añadir al menú
                     </Button>
                 </DialogFooter>
             </DialogContent>

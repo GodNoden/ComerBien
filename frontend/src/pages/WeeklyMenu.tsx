@@ -48,13 +48,13 @@ const WeeklyMenu = () => {
   const navigate = useNavigate();
   const [recommendedCalories, setRecommendedCalories] = useState<number>(0);
   const [mealPlan, setMealPlan] = useState<MealPlan>({
-    Monday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-    Tuesday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-    Wednesday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-    Thursday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-    Friday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-    Saturday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-    Sunday: { breakfast: [], lunch: [], dinner: [], snack: [] }
+    Lunes: { desayuno: [], comida: [], cena: [], snack: [] },
+    Martes: { desayuno: [], comida: [], cena: [], snack: [] },
+    Miércoles: { desayuno: [], comida: [], cena: [], snack: [] },
+    Jueves: { desayuno: [], comida: [], cena: [], snack: [] },
+    Viernes: { desayuno: [], comida: [], cena: [], snack: [] },
+    Saturday: { desayuno: [], comida: [], cena: [], snack: [] },
+    Domingo: { desayuno: [], comida: [], cena: [], snack: [] }
   });
   
   const [addMealDialog, setAddMealDialog] = useState({
@@ -79,13 +79,13 @@ const WeeklyMenu = () => {
       const parsedMealPlan = JSON.parse(savedMealPlan);
       // Start with a complete week structure
       const convertedMealPlan: MealPlan = {
-        Monday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-        Tuesday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-        Wednesday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-        Thursday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-        Friday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-        Saturday: { breakfast: [], lunch: [], dinner: [], snack: [] },
-        Sunday: { breakfast: [], lunch: [], dinner: [], snack: [] }
+        Lunes: { desayuno: [], comida: [], cena: [], snack: [] },
+        Martes: { desayuno: [], comida: [], cena: [], snack: [] },
+        Miércoles: { desayuno: [], comida: [], cena: [], snack: [] },
+        Jueves: { desayuno: [], comida: [], cena: [], snack: [] },
+        Viernes: { desayuno: [], comida: [], cena: [], snack: [] },
+        Saturday: { desayuno: [], comida: [], cena: [], snack: [] },
+        Domingo: { desayuno: [], comida: [], cena: [], snack: [] }
       };
       
       // Only populate days that exist in saved data
@@ -153,7 +153,7 @@ const WeeklyMenu = () => {
   };
 
   const calculateDayTotals = (dayMeals: DayMeals) => {
-    const allMeals = [...dayMeals.breakfast, ...dayMeals.lunch, ...dayMeals.dinner, ...dayMeals.snack];
+    const allMeals = [...dayMeals.desayuno, ...dayMeals.comida, ...dayMeals.cena, ...dayMeals.snack];
     return allMeals.reduce(
       (totals, recipe) => ({
         calories: totals.calories + recipe.calories,
@@ -199,7 +199,7 @@ const WeeklyMenu = () => {
     const allIngredients: string[] = [];
     
     Object.values(mealPlan).forEach((dayMeals: DayMeals) => {
-      const allMeals = [...dayMeals.breakfast, ...dayMeals.lunch, ...dayMeals.dinner, ...dayMeals.snack];
+      const allMeals = [...dayMeals.desayuno, ...dayMeals.comida, ...dayMeals.cena, ...dayMeals.snack];
       allMeals.forEach((recipe: Recipe) => {
         if (Array.isArray(recipe.ingredients)) {
           allIngredients.push(...recipe.ingredients);
@@ -310,7 +310,7 @@ const WeeklyMenu = () => {
                         <div className="text-sm text-gray-500 mb-3">No meals planned</div>
                         <Button
                           size="sm"
-                          onClick={() => setAddMealDialog({ isOpen: true, day, mealType: 'breakfast' })}
+                          onClick={() => setAddMealDialog({ isOpen: true, day, mealType: 'desayuno' })}
                           className="bg-primary/10 hover:bg-primary text-primary hover:text-white border-none shadow-none transition-all duration-200"
                         >
                           <Plus className="h-4 w-4 mr-2" />

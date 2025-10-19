@@ -91,9 +91,9 @@ const AIRecipeGenerator = ({ isOpen, onClose, onResult }: AIRecipeGeneratorProps
                                     <SelectValue placeholder="Any category" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="breakfast">Breakfast</SelectItem>
-                                    <SelectItem value="lunch">Lunch</SelectItem>
-                                    <SelectItem value="dinner">Dinner</SelectItem>
+                                    <SelectItem value="desayuno">Desayuno</SelectItem>
+                                    <SelectItem value="comida">Comida</SelectItem>
+                                    <SelectItem value="cena">Cena</SelectItem>
                                     <SelectItem value="snack">Snack</SelectItem>
                                 </SelectContent>
                             </Select>

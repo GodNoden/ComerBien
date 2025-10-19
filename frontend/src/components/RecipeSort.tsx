@@ -20,19 +20,19 @@ const RecipeSort = ({ sortBy, onSortChange }: RecipeSortProps) => {
             <ArrowUpDown className="h-4 w-4 text-gray-500" />
             <Select value={sortBy} onValueChange={onSortChange}>
                 <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Sort by..." />
+                    <SelectValue placeholder="Ordenar por..." />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="all">All Recipes</SelectItem>
-                    <SelectItem value="breakfast">Breakfast Only</SelectItem>
-                    <SelectItem value="lunch">Lunch Only</SelectItem>
-                    <SelectItem value="dinner">Dinner Only</SelectItem>
-                    <SelectItem value="dessert">Dessert Only</SelectItem>
-                    <SelectItem value="low-carb">Low Carb</SelectItem>
-                    <SelectItem value="high-carb">High Carb</SelectItem>
-                    <SelectItem value="high-protein">High Protein</SelectItem>
-                    <SelectItem value="vegetarian">Vegetarian</SelectItem>
-                    <SelectItem value="high-fat">High Fat</SelectItem>
+                    <SelectItem value="all">Todas las Recetas</SelectItem>
+                    <SelectItem value="desayuno">Solo Desayuno</SelectItem>
+                    <SelectItem value="comida">Solo Almuerzo</SelectItem>
+                    <SelectItem value="cena">Solo Cena</SelectItem>
+                    <SelectItem value="dessert">Solo Postre</SelectItem>
+                    <SelectItem value="low-carb">Bajos en Carbos</SelectItem>
+                    <SelectItem value="high-carb">Altos en Carbos</SelectItem>
+                    <SelectItem value="high-protein">Alto en Proteína</SelectItem>
+                    <SelectItem value="vegetarian">Vegetariano</SelectItem>
+                    <SelectItem value="high-fat">Alto en Grasa</SelectItem>
                 </SelectContent>
             </Select>
         </div>

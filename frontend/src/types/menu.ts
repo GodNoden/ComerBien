@@ -26,9 +26,9 @@ export interface Recipe {
 }
 
 export interface DayMeals {
-    breakfast: Recipe[];
-    lunch: Recipe[];
-    dinner: Recipe[];
+    desayuno: Recipe[];
+    comida: Recipe[];
+    cena: Recipe[];
     snack: Recipe[];
 }
 

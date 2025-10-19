@@ -17,7 +17,7 @@ const ActionButtons = () => {
           aria-label="Create Weekly Menu"
         >
           <CalendarDays className="h-5 w-5" />
-          <span className="hidden sm:inline">Weekly Menu</span>
+          <span className="hidden sm:inline">Menú Semanal</span>
         </Button>
         
         <Button 
@@ -26,7 +26,7 @@ const ActionButtons = () => {
           aria-label="Add Recipe"
         >
           <Plus className="h-5 w-5" />
-          <span className="hidden sm:inline">Add Recipe</span>
+          <span className="hidden sm:inline">Agregar Receta</span>
         </Button>
       </div>
       
