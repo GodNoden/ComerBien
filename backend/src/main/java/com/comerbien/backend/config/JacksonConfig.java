@@ -1,5 +1,5 @@
 package com.comerbien.backend.config;
 
-public class WebConfig {
+public class JacksonConfig {
     
 }
