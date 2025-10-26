@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +18,7 @@ interface RecipeCardProps {
     id: number;
     title: string;
     time: string;
-    difficulty: 'easy' | 'medium' | 'hard';
+    difficulty: 'fácil' | 'medio' | 'difícil';
     image: string;
     category: string;
     calories?: number;
@@ -25,8 +26,6 @@ interface RecipeCardProps {
     carbs?: number;
     fat?: number;
     tags?: string[];
-    isFavorite: boolean;
-    onToggleFavorite: (recipeId: number) => void;
     onAddToWeeklyMenu?: (recipeId: number, recipeTitle: string) => void;
 }
 
@@ -42,39 +41,55 @@ const RecipeCard = ({
     carbs,
     fat,
     tags = [],
-    isFavorite,
-    onToggleFavorite,
     onAddToWeeklyMenu
 }: RecipeCardProps) => {
     const { toast } = useToast();
+    const [isFavorite, setIsFavorite] = useState(() => {
+        const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+        return favorites.includes(id);
+    });
 
     const difficultyColor = {
-        easy: 'bg-green-100 text-green-800',
-        medium: 'bg-amber-100 text-amber-800',
-        hard: 'bg-red-100 text-red-800'
+        fácil: 'bg-green-100 text-green-800',
+        medio: 'bg-amber-100 text-amber-800',
+        difícil: 'bg-red-100 text-red-800'
     };
 
     const tagColors = {
-        'low carb': 'bg-blue-100 text-blue-800',
-        'high carb': 'bg-orange-100 text-orange-800',
-        'high protein': 'bg-purple-100 text-purple-800',
-        'vegetarian': 'bg-green-100 text-green-800',
-        'high fat': 'bg-red-100 text-red-800',
-        'low fat': 'bg-cyan-100 text-cyan-800',
-        'gluten free': 'bg-yellow-100 text-yellow-800',
-        'dairy free': 'bg-pink-100 text-pink-800'
+        'bajo en carbohidratos': 'bg-blue-100 text-blue-800',
+        'alto en carbohidratos': 'bg-orange-100 text-orange-800',
+        'alto en proteína': 'bg-purple-100 text-purple-800',
+        'vegetariano': 'bg-green-100 text-green-800',
+        'alto en grasas': 'bg-red-100 text-red-800',
+        'bajo en grasas': 'bg-cyan-100 text-cyan-800',
+        'sin gluten': 'bg-yellow-100 text-yellow-800',
+        'sin lácteos': 'bg-pink-100 text-pink-800',
+        'vegano': 'bg-emerald-100 text-emerald-800'
     };
 
     const toggleFavorite = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
 
-        onToggleFavorite(id);
+        const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+        let newFavorites;
 
-        toast({
-            title: isFavorite ? "Removed from favorites" : "Added to favorites",
-            description: `${title} has been ${isFavorite ? 'removed from' : 'added to'} your favorites.`,
-        });
+        if (isFavorite) {
+            newFavorites = favorites.filter((favId: number) => favId !== id);
+            toast({
+                title: "Eliminado de favoritos",
+                description: `${title} se ha eliminado de tus favoritos.`,
+            });
+        } else {
+            newFavorites = [...favorites, id];
+            toast({
+                title: "Agregado a favoritos",
+                description: `${title} se ha agregado a tus favoritos.`,
+            });
+        }
+
+        localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+        setIsFavorite(!isFavorite);
     };
 
     const addToWeeklyMenu = (e: React.MouseEvent) => {
@@ -118,13 +133,13 @@ const RecipeCard = ({
                                 </Badge>
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="grow">
+                        <CardContent className="flex-grow">
                             {(calories || protein || carbs || fat) && (
                                 <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-3">
                                     {calories && <div><span className="font-medium">Cal:</span> {calories}</div>}
-                                    {protein && <div><span className="font-medium">Protein:</span> {protein}g</div>}
-                                    {carbs && <div><span className="font-medium">Carbs:</span> {carbs}g</div>}
-                                    {fat && <div><span className="font-medium">Fat:</span> {fat}g</div>}
+                                    {protein && <div><span className="font-medium">Proteína:</span> {protein}g</div>}
+                                    {carbs && <div><span className="font-medium">Carbos:</span> {carbs}g</div>}
+                                    {fat && <div><span className="font-medium">Grasas:</span> {fat}g</div>}
                                 </div>
                             )}
 
@@ -148,7 +163,7 @@ const RecipeCard = ({
                             )}
 
                             <p className="text-sm text-gray-500 line-clamp-2">
-                                A delicious recipe that's perfect for any occasion. Try this mouth-watering dish today!
+                                Una deliciosa receta perfecta para cualquier ocasión. ¡Prueba este platillo delicioso hoy!
                             </p>
                         </CardContent>
                         <CardFooter className="pt-2">
@@ -162,16 +177,16 @@ const RecipeCard = ({
             <ContextMenuContent className="w-48">
                 <ContextMenuItem onClick={addToWeeklyMenu}>
                     <Calendar className="mr-2 h-4 w-4" />
-                    Add to Weekly Menu
+                    Agregar al Menú Semanal
                 </ContextMenuItem>
                 <ContextMenuItem onClick={toggleFavorite}>
                     <Heart className={`mr-2 h-4 w-4 ${isFavorite ? 'text-red-500' : ''}`} />
-                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                    {isFavorite ? 'Quitar de Favoritos' : 'Agregar a Favoritos'}
                 </ContextMenuItem>
                 <ContextMenuSeparator />
                 <ContextMenuItem>
                     <Plus className="mr-2 h-4 w-4" />
-                    Quick Actions
+                    Acciones Rápidas
                 </ContextMenuItem>
             </ContextMenuContent>
         </ContextMenu>

@@ -43,12 +43,12 @@ const ShoppingListDialog = ({ isOpen, onClose, ingredients }: ShoppingListDialog
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Shopping List</DialogTitle>
+                    <DialogTitle>Lista de Compras</DialogTitle>
                 </DialogHeader>
                 <div className="mt-4">
                     <div className="flex gap-2 mb-4">
                         <Input
-                            placeholder="Add new ingredient..."
+                            placeholder="Agregar nuevo ingrediente..."
                             value={newIngredient}
                             onChange={(e) => setNewIngredient(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
@@ -60,7 +60,7 @@ const ShoppingListDialog = ({ isOpen, onClose, ingredients }: ShoppingListDialog
 
                     <div className="space-y-2">
                         {editableIngredients.length === 0 ? (
-                            <p className="text-gray-500 text-center py-8">No ingredients in your shopping list</p>
+                            <p className="text-gray-500 text-center py-8">No hay ingredientes en tu lista de compras</p>
                         ) : (
                             editableIngredients.map((ingredient, index) => (
                                 <div key={index} className="flex items-center gap-2 p-2 border rounded">
@@ -84,15 +84,15 @@ const ShoppingListDialog = ({ isOpen, onClose, ingredients }: ShoppingListDialog
 
                     <div className="mt-6 flex justify-end gap-2">
                         <Button variant="outline" onClick={onClose}>
-                            Close
+                            Cerrar
                         </Button>
                         <Button
                             onClick={() => {
-                                // Here you could implement functionality to export or print the list
+                                //TODO: Add export list functionality
                                 console.log('Shopping list:', editableIngredients);
                             }}
                         >
-                            Export List
+                            Exportar Lista
                         </Button>
                     </div>
                 </div>

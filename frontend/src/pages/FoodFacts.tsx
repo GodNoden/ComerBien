@@ -92,9 +92,9 @@ const FoodFacts = () => {
   ];
 
   const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
+    const colors: { [key: string]: string; } = {
       "Grasas Saludables": "bg-green-100 text-green-800 border-green-200",
-      "Antioxidantes": "bg-purple-100 text-purple-800 border-purple-200", 
+      "Antioxidantes": "bg-purple-100 text-purple-800 border-purple-200",
       "Proteínas": "bg-orange-100 text-orange-800 border-orange-200",
       "Fibra y Control Glucémico": "bg-blue-100 text-blue-800 border-blue-200",
       "Omega-3 y Fibra": "bg-teal-100 text-teal-800 border-teal-200",
@@ -110,8 +110,8 @@ const FoodFacts = () => {
       <div className="bg-white border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
               onClick={() => navigate(-1)}
               className="flex items-center gap-2"
@@ -139,8 +139,8 @@ const FoodFacts = () => {
             <Card key={fact.id} className="h-fit hover:shadow-lg transition-shadow">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-2">
-                  <Badge 
-                    variant="outline" 
+                  <Badge
+                    variant="outline"
                     className={getCategoryColor(fact.category)}
                   >
                     {fact.category}
@@ -150,7 +150,7 @@ const FoodFacts = () => {
                   {fact.title}
                 </CardTitle>
               </CardHeader>
-              
+
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div>
@@ -159,14 +159,14 @@ const FoodFacts = () => {
                       {fact.fact}
                     </p>
                   </div>
-                  
+
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1 text-sm">Por Qué Importa</h4>
                     <p className="text-gray-600 text-sm leading-relaxed">
                       {fact.details}
                     </p>
                   </div>
-                  
+
                   <div className="bg-green-50 p-3 rounded-md border border-green-200">
                     <h4 className="font-medium text-green-800 mb-1 text-sm">💡 Consejo Saludable</h4>
                     <p className="text-green-700 text-sm">
@@ -174,9 +174,9 @@ const FoodFacts = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="pt-3 border-t border-gray-100">
-                  <a 
+                  <a
                     href={fact.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"

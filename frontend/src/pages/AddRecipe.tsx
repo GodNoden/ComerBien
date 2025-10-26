@@ -8,10 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, X, Upload, Sparkles, Bot } from 'lucide-react';
+import { ArrowLeft, Plus, X, Upload } from 'lucide-react';
 import Header from '@/components/Header';
-import AICalorieCalculator from '@/components/AICalorieCalculator';
-import AIRecipeGenerator from '@/components/AIRecipeGenerator';
 
 const AddRecipe = () => {
     const navigate = useNavigate();
@@ -31,8 +29,6 @@ const AddRecipe = () => {
     const [steps, setSteps] = useState<string[]>(['']);
     const [tags, setTags] = useState<string[]>([]);
     const [newTag, setNewTag] = useState('');
-    const [showAICalculator, setShowAICalculator] = useState(false);
-    const [showAIGenerator, setShowAIGenerator] = useState(false);
 
     const addIngredient = () => {
         setIngredients([...ingredients, '']);
@@ -96,36 +92,6 @@ const AddRecipe = () => {
         navigate('/');
     };
 
-    const handleAICalorieResult = (nutrition: { calories: number; protein: number; carbs: number; fat: number; }) => {
-        setFormData(prev => ({
-            ...prev,
-            calories: nutrition.calories.toString(),
-            protein: nutrition.protein.toString(),
-            carbs: nutrition.carbs.toString(),
-            fat: nutrition.fat.toString()
-        }));
-        setShowAICalculator(false);
-    };
-
-    const handleAIRecipeResult = (recipe: any) => {
-        setFormData(prev => ({
-            ...prev,
-            title: recipe.title,
-            category: recipe.category,
-            time: recipe.time,
-            complexity: recipe.complexity,
-            calories: recipe.calories?.toString() || '',
-            protein: recipe.protein?.toString() || '',
-            carbs: recipe.carbs?.toString() || '',
-            fat: recipe.fat?.toString() || '',
-            description: recipe.description || ''
-        }));
-        setIngredients(recipe.ingredients || ['']);
-        setSteps(recipe.steps || ['']);
-        setTags(recipe.tags || []);
-        setShowAIGenerator(false);
-    };
-
     return (
         <div className="min-h-screen bg-gray-50">
             <Header />
@@ -138,59 +104,29 @@ const AddRecipe = () => {
                         className="flex items-center gap-2"
                     >
                         <ArrowLeft className="h-4 w-4" />
-                        Back to Home
+                        Volver al Inicio
                     </Button>
-                    <h1 className="text-3xl font-bold text-food-purple">Add New Recipe</h1>
+                    <h1 className="text-3xl font-bold text-food-purple">Agregar Nueva Receta</h1>
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-2">
-                    {/* AI Assistance */}
-                    <Card className="md:col-span-2">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Sparkles className="h-5 w-5 text-food-purple" />
-                                AI Assistance
-                            </CardTitle>
-                            <CardDescription>
-                                Let AI help you with nutrition calculation or complete recipe generation
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex gap-4">
-                            <Button
-                                onClick={() => setShowAICalculator(true)}
-                                className="bg-food-orange hover:bg-food-orange/90"
-                            >
-                                <Sparkles className="h-4 w-4 mr-2" />
-                                Calculate Nutrition with AI
-                            </Button>
-                            <Button
-                                onClick={() => setShowAIGenerator(true)}
-                                className="bg-food-purple hover:bg-food-purple/90"
-                            >
-                                <Bot className="h-4 w-4 mr-2" />
-                                Generate Recipe with AI
-                            </Button>
-                        </CardContent>
-                    </Card>
-
-                    {/* Basic Information */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Basic Information</CardTitle>
+                            <CardTitle>Información Básica</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div>
-                                <Label htmlFor="title">Recipe Title</Label>
+                                <Label htmlFor="title">Título de la Receta</Label>
                                 <Input
                                     id="title"
                                     value={formData.title}
                                     onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                                    placeholder="Enter recipe title"
+                                    placeholder="Ingresa el título de la receta"
                                 />
                             </div>
 
                             <div>
-                                <Label htmlFor="image">Recipe Image</Label>
+                                <Label htmlFor="image">Imagen de la Receta</Label>
                                 <div className="flex items-center gap-4">
                                     <Input
                                         id="image"
@@ -206,19 +142,19 @@ const AddRecipe = () => {
                                         className="flex items-center gap-2"
                                     >
                                         <Upload className="h-4 w-4" />
-                                        Upload Image
+                                        Subir Imagen
                                     </Button>
                                     {formData.image && (
-                                        <img src={formData.image} alt="Preview" className="h-16 w-16 object-cover rounded" />
+                                        <img src={formData.image} alt="Vista previa" className="h-16 w-16 object-cover rounded" />
                                     )}
                                 </div>
                             </div>
 
                             <div>
-                                <Label htmlFor="category">Category</Label>
+                                <Label htmlFor="category">Categoría</Label>
                                 <Select onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select category" />
+                                        <SelectValue placeholder="Selecciona categoría" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="desayuno">Desayuno</SelectItem>
@@ -231,52 +167,51 @@ const AddRecipe = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <Label htmlFor="time">Cooking Time</Label>
+                                    <Label htmlFor="time">Tiempo de Cocción</Label>
                                     <Input
                                         id="time"
                                         value={formData.time}
                                         onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))}
-                                        placeholder="e.g., 30 minutes"
+                                        placeholder="ej., 30 minutos"
                                     />
                                 </div>
                                 <div>
-                                    <Label htmlFor="complexity">Complexity</Label>
+                                    <Label htmlFor="complexity">Complejidad</Label>
                                     <Select onValueChange={(value) => setFormData(prev => ({ ...prev, complexity: value }))}>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select complexity" />
+                                            <SelectValue placeholder="Selecciona complejidad" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="easy">Easy</SelectItem>
-                                            <SelectItem value="medium">Medium</SelectItem>
-                                            <SelectItem value="hard">Hard</SelectItem>
+                                            <SelectItem value="fácil">Fácil</SelectItem>
+                                            <SelectItem value="medio">Medio</SelectItem>
+                                            <SelectItem value="difícil">Difícil</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
                             </div>
 
                             <div>
-                                <Label htmlFor="description">Description</Label>
+                                <Label htmlFor="description">Descripción</Label>
                                 <Textarea
                                     id="description"
                                     value={formData.description}
                                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                                    placeholder="Brief description of the recipe"
+                                    placeholder="Breve descripción de la receta"
                                     rows={3}
                                 />
                             </div>
                         </CardContent>
                     </Card>
 
-                    {/* Nutrition Information */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Nutrition Information</CardTitle>
-                            <CardDescription>Per serving</CardDescription>
+                            <CardTitle>Información Nutricional</CardTitle>
+                            <CardDescription>Por porción</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <Label htmlFor="calories">Calories</Label>
+                                    <Label htmlFor="calories">Calorías</Label>
                                     <Input
                                         id="calories"
                                         type="number"
@@ -286,7 +221,7 @@ const AddRecipe = () => {
                                     />
                                 </div>
                                 <div>
-                                    <Label htmlFor="protein">Protein (g)</Label>
+                                    <Label htmlFor="protein">Proteína (g)</Label>
                                     <Input
                                         id="protein"
                                         type="number"
@@ -296,7 +231,7 @@ const AddRecipe = () => {
                                     />
                                 </div>
                                 <div>
-                                    <Label htmlFor="carbs">Carbs (g)</Label>
+                                    <Label htmlFor="carbs">Carbohidratos (g)</Label>
                                     <Input
                                         id="carbs"
                                         type="number"
@@ -306,7 +241,7 @@ const AddRecipe = () => {
                                     />
                                 </div>
                                 <div>
-                                    <Label htmlFor="fat">Fat (g)</Label>
+                                    <Label htmlFor="fat">Grasa (g)</Label>
                                     <Input
                                         id="fat"
                                         type="number"
@@ -319,10 +254,9 @@ const AddRecipe = () => {
                         </CardContent>
                     </Card>
 
-                    {/* Ingredients */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Ingredients</CardTitle>
+                            <CardTitle>Ingredientes</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             {ingredients.map((ingredient, index) => (
@@ -330,7 +264,7 @@ const AddRecipe = () => {
                                     <Input
                                         value={ingredient}
                                         onChange={(e) => updateIngredient(index, e.target.value)}
-                                        placeholder={`Ingredient ${index + 1}`}
+                                        placeholder={`Ingrediente ${index + 1}`}
                                     />
                                     {ingredients.length > 1 && (
                                         <Button
@@ -351,15 +285,14 @@ const AddRecipe = () => {
                                 className="w-full"
                             >
                                 <Plus className="h-4 w-4 mr-2" />
-                                Add Ingredient
+                                Agregar Ingrediente
                             </Button>
                         </CardContent>
                     </Card>
 
-                    {/* Steps */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Cooking Steps</CardTitle>
+                            <CardTitle>Pasos de Preparación</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             {steps.map((step, index) => (
@@ -371,7 +304,7 @@ const AddRecipe = () => {
                                         <Textarea
                                             value={step}
                                             onChange={(e) => updateStep(index, e.target.value)}
-                                            placeholder={`Step ${index + 1} instructions`}
+                                            placeholder={`Instrucciones del paso ${index + 1}`}
                                             rows={2}
                                         />
                                         {steps.length > 1 && (
@@ -394,23 +327,22 @@ const AddRecipe = () => {
                                 className="w-full"
                             >
                                 <Plus className="h-4 w-4 mr-2" />
-                                Add Step
+                                Agregar Paso
                             </Button>
                         </CardContent>
                     </Card>
 
-                    {/* Tags */}
                     <Card className="md:col-span-2">
                         <CardHeader>
-                            <CardTitle>Tags</CardTitle>
-                            <CardDescription>Add tags to help categorize your recipe</CardDescription>
+                            <CardTitle>Etiquetas</CardTitle>
+                            <CardDescription>Agrega etiquetas para ayudar a categorizar tu receta</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex gap-2">
                                 <Input
                                     value={newTag}
                                     onChange={(e) => setNewTag(e.target.value)}
-                                    placeholder="Add a tag"
+                                    placeholder="Agregar una etiqueta"
                                     onKeyPress={(e) => e.key === 'Enter' && addTag()}
                                 />
                                 <Button type="button" onClick={addTag}>
@@ -431,36 +363,17 @@ const AddRecipe = () => {
                         </CardContent>
                     </Card>
 
-                    {/* Submit */}
                     <div className="md:col-span-2">
                         <Button
                             onClick={handleSubmit}
                             className="w-full bg-food-purple hover:bg-food-purple/90"
                             size="lg"
                         >
-                            Save Recipe
+                            Guardar Receta
                         </Button>
                     </div>
                 </div>
             </div>
-
-            {/* AI Modals */}
-            {showAICalculator && (
-                <AICalorieCalculator
-                    isOpen={showAICalculator}
-                    onClose={() => setShowAICalculator(false)}
-                    onResult={handleAICalorieResult}
-                    ingredients={ingredients.filter(i => i.trim())}
-                />
-            )}
-
-            {showAIGenerator && (
-                <AIRecipeGenerator
-                    isOpen={showAIGenerator}
-                    onClose={() => setShowAIGenerator(false)}
-                    onResult={handleAIRecipeResult}
-                />
-            )}
         </div>
     );
 };

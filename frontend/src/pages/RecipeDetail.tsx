@@ -61,7 +61,7 @@ const recipeDetails = {
     time: '25 min',
     difficulty: 'medium' as const,
     image: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=1000',
-    category: 'Almuerzo',
+    category: 'Comida',
     description: 'Pescado blanco marinado con especias tipo pastor, servido en tortillas de maíz con piña asada y salsa verde.',
     rating: 4.7,
     ingredients: [
@@ -158,8 +158,8 @@ const recipeDetails = {
     time: '45 min',
     difficulty: 'medium' as const,
     image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1000',
-    category: 'Postre',
-    description: 'Esponjoso bizcocho empapado en mezcla de tres leches y coronado con merengue suave, el postre más amado de México.',
+    category: 'Snack',
+    description: 'Esponjoso bizcocho empapado en mezcla de tres leches y coronado con merengue suave, el snack más amado de México.',
     rating: 4.8,
     ingredients: [
       '5 huevos separados',
@@ -284,10 +284,8 @@ const recipeDetails = {
       tip: "La cocción lenta preserva más nutrientes que métodos de alta temperatura."
     }
   }
-  // Continuaría con las otras 20 recetas...
 };
 
-// Función para generar datos nutricionales contextuales
 const getFoodFactForRecipe = (recipeId: number) => {
   const facts: { [key: number]: any; } = {
     1: {
@@ -389,7 +387,6 @@ const RecipeDetail = () => {
             </div>
           </div>
 
-          {/* Recipe Details */}
           <div>
             <div className="mb-4">
               <Badge variant="secondary" className="mb-2">
@@ -413,7 +410,6 @@ const RecipeDetail = () => {
               </div>
             </div>
 
-            {/* Nutrition Facts */}
             <Card className="mb-6">
               <CardHeader>
                 <CardTitle className="text-lg">Información Nutricional</CardTitle>
@@ -440,7 +436,6 @@ const RecipeDetail = () => {
               </CardContent>
             </Card>
 
-            {/* Cooking Times */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <Card>
                 <CardContent className="p-4">
@@ -462,7 +457,6 @@ const RecipeDetail = () => {
           </div>
         </div>
 
-        {/* Food Fact Card */}
         <Card className="mb-8 bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -478,9 +472,7 @@ const RecipeDetail = () => {
           </CardContent>
         </Card>
 
-        {/* Ingredients and Instructions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Ingredients */}
           <Card>
             <CardHeader>
               <CardTitle>Ingredientes</CardTitle>
@@ -497,7 +489,6 @@ const RecipeDetail = () => {
             </CardContent>
           </Card>
 
-          {/* Instructions */}
           <Card>
             <CardHeader>
               <CardTitle>Instrucciones</CardTitle>
@@ -517,7 +508,6 @@ const RecipeDetail = () => {
           </Card>
         </div>
 
-        {/* Nutrition Tip */}
         {recipe.nutritionTip && (
           <Card className="mt-8 bg-amber-50 border-amber-200">
             <CardHeader>

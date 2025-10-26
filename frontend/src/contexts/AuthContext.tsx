@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  user: { username: string } | null;
+  user: { username: string; } | null;
   login: (username: string, password: string) => boolean;
   logout: () => void;
 }
@@ -17,9 +17,9 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode; }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<{ username: string } | null>(null);
+  const [user, setUser] = useState<{ username: string; } | null>(null);
 
   // Check for existing login on mount
   useEffect(() => {

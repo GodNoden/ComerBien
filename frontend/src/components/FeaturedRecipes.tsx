@@ -16,24 +16,20 @@ const FeaturedRecipes = () => {
     recipeId: 0
   });
 
-  // Load user profile and set up listener for changes
   useEffect(() => {
     const loadUserProfile = () => {
       const profile = localStorage.getItem('userProfile');
       setUserProfile(profile ? JSON.parse(profile) : null);
     };
 
-    // Initial load
     loadUserProfile();
 
-    // Listen for localStorage changes (when user updates profile)
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'userProfile') {
         loadUserProfile();
       }
     };
 
-    // Listen for custom profile update events
     const handleProfileUpdate = () => {
       loadUserProfile();
     };
@@ -47,14 +43,13 @@ const FeaturedRecipes = () => {
     };
   }, []);
 
-  // Obtener perfil de usuario para recomendaciones personalizadas
   const getUserProfile = () => {
     return userProfile;
   };
 
   const calculateUserBMI = (height: string, weight: string) => {
     if (!height || !weight) return null;
-    const heightM = parseFloat(height) / 100; // convertir cm a metros
+    const heightM = parseFloat(height) / 100;
     const weightKg = parseFloat(weight);
     return weightKg / (heightM * heightM);
   };
@@ -66,14 +61,13 @@ const FeaturedRecipes = () => {
     const bmi = calculateUserBMI(height, weight);
     let score = 0;
 
-    // Verificar alergenos y no gustos primero - aplicar penalización fuerte
     if (userProfile.allergies?.length > 0) {
       const hasAllergen = userProfile.allergies.some((allergen: string) =>
         recipe.title.toLowerCase().includes(allergen.toLowerCase()) ||
         recipe.tags.some((tag: string) => tag.toLowerCase().includes(allergen.toLowerCase()))
       );
       if (hasAllergen) {
-        score -= 1000; // Penalización fuerte para empujar al fondo
+        score -= 1000;
       }
     }
 
@@ -83,50 +77,48 @@ const FeaturedRecipes = () => {
         recipe.tags.some((tag: string) => tag.toLowerCase().includes(dislike.toLowerCase()))
       );
       if (hasDislike) {
-        score -= 500; // Penalización moderada para no gustos
+        score -= 500;
       }
     }
 
-    // Puntuación base según objetivo de peso
     if (weightGoal === 'perder') {
-      // Priorizar alto en proteína, menos calorías
-      score += (recipe.protein / recipe.calories) * 100; // Eficiencia de proteína
+      score += (recipe.protein / recipe.calories) * 100;
       score += recipe.calories < 300 ? 30 : recipe.calories < 400 ? 20 : 10;
       score += recipe.tags.includes('bajo en carbos') ? 20 : 0;
       score += recipe.tags.includes('alto en proteína') ? 25 : 0;
     } else if (weightGoal === 'ganar') {
-      // Priorizar más calorías y macros balanceados
+      
       score += recipe.calories > 400 ? 30 : recipe.calories > 300 ? 20 : 10;
       score += recipe.protein > 20 ? 25 : 15;
       score += recipe.tags.includes('alto en proteína') ? 20 : 0;
       score += recipe.tags.includes('alto en grasa') ? 15 : 0;
     } else {
-      // Mantenimiento - enfoque balanceado
+      
       score += recipe.calories >= 250 && recipe.calories <= 450 ? 25 : 15;
       score += recipe.protein > 15 ? 20 : 10;
     }
 
-    // Consideraciones de nivel de actividad
+
     if (activityLevel === 'muy' || activityLevel === 'extremo') {
-      score += recipe.carbs > 30 ? 15 : 10; // Más carbos para gente activa
-      score += recipe.protein > 25 ? 20 : 15; // Más proteína para recuperación
+      score += recipe.carbs > 30 ? 15 : 10;
+      score += recipe.protein > 25 ? 20 : 15;
     }
 
-    // Ajustes específicos por género
+    
     if (gender === 'masculino') {
-      score += recipe.calories > 350 ? 10 : 5; // Generalmente necesidades calóricas más altas
+      score += recipe.calories > 350 ? 10 : 5;
       score += recipe.protein > 25 ? 15 : 10;
     } else {
       score += recipe.calories >= 250 && recipe.calories <= 400 ? 10 : 5;
       score += recipe.protein > 20 ? 15 : 10;
     }
 
-    // Consideraciones de IMC
+    
     if (bmi) {
-      if (bmi < 18.5) { // Bajo peso
+      if (bmi < 18.5) {
         score += recipe.calories > 400 ? 20 : 10;
         score += recipe.tags.includes('alto en grasa') ? 15 : 0;
-      } else if (bmi > 25) { // Sobrepeso
+      } else if (bmi > 25) {
         score += recipe.calories < 350 ? 20 : 10;
         score += recipe.tags.includes('bajo en carbos') ? 15 : 0;
       }
@@ -139,25 +131,21 @@ const FeaturedRecipes = () => {
     let filtered = [...recipeList];
     const userProfile = getUserProfile();
 
-    // Aplicar puntuación personalizada si existe perfil
+    
     if (userProfile?.personalInfo?.weightGoal) {
-      // Calcular puntuaciones personalizadas para cada receta (incluye penalizaciones por alergenos/no gustos)
       const recipesWithScores = filtered.map(recipe => ({
         ...recipe,
         personalizedScore: getPersonalizedScore(recipe, userProfile)
       }));
 
-      // Ordenar por puntuación personalizada (más alto primero - alergenos/no gustos estarán al fondo)
       recipesWithScores.sort((a, b) => b.personalizedScore - a.personalizedScore);
       filtered = recipesWithScores;
     }
 
-    // Aplicar criterios de ordenamiento adicionales
     if (sortBy !== 'todas') {
-      if (['desayuno', 'almuerzo', 'cena', 'postre'].includes(sortBy)) {
+      if (['desayuno', 'comida', 'cena', 'snack'].includes(sortBy)) {
         filtered = filtered.filter(recipe => recipe.category.toLowerCase() === sortBy);
       } else {
-        // Filtrar por etiquetas
         const tagMap: { [key: string]: string; } = {
           'bajo-carbos': 'bajo en carbos',
           'alto-carbos': 'alto en carbos',

@@ -1,3 +1,31 @@
+// Imports de imágenes locales
+import huevosRancheros from '@/assets/huevos-rancheros.jpg';
+import tacosPescadoPastor from '@/assets/tacos-pescado-pastor.jpg';
+import molePoblanoPollo from '@/assets/mole-poblano-pollo.jpg';
+import tresLeches from '@/assets/tres-leches.jpg';
+import chilaquilesVerdes from '@/assets/chilaquiles-verdes.jpg';
+import cochinita from '@/assets/cochinita-pibil.jpg';
+import bowlQuinoaNopales from '@/assets/bowl-quinoa-nopales.jpg';
+import ensaladaPolloAguacate from '@/assets/ensalada-pollo-aguacate.jpg';
+import aguaChiaLimon from '@/assets/agua-chia-limon.jpg';
+import frijolesCharros from '@/assets/frijoles-charros.jpg';
+import bolitasAmaranto from '@/assets/bolitas-amaranto.jpg';
+import chilesRellenosQueso from '@/assets/chiles-rellenos-queso.jpg';
+import molletesFrijoles from '@/assets/molletes-frijoles.jpg';
+import pescadoVeracruzana from '@/assets/pescado-veracruzana.jpg';
+import tacosFrijolNopales from '@/assets/tacos-frijol-nopales.jpg';
+import licuadoPlatanoAvena from '@/assets/licuado-platano-avena.jpg';
+import polloSalsaVerde from '@/assets/pollo-salsa-verde.jpg';
+import sopaTortilla from '@/assets/sopa-tortilla.jpg';
+import browniesChocolate from '@/assets/brownies-chocolate-mexicano.jpg';
+import wrapsLechugaPollo from '@/assets/wraps-lechuga-pollo.jpg';
+import hotcakesAvena from '@/assets/hotcakes-avena.jpg';
+import hongosPortobello from '@/assets/hongos-portobello-rellenos.jpg';
+import bowlMexicanoPollo from '@/assets/bowl-mexicano-pollo.jpg';
+import coliflorGratinada from '@/assets/coliflor-gratinada.jpg';
+import barritasGranola from '@/assets/barritas-granola.jpg';
+import flanVainilla from '@/assets/flan-vainilla.jpg';
+
 // Recetas mexicanas auténticas con valores nutricionales
 export const recipes = [
   {
@@ -5,33 +33,62 @@ export const recipes = [
     title: 'Huevos Rancheros Tradicionales',
     time: '20 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?q=80&w=1000',
+    image: 'https://www.daisybrand.com/wp-content/uploads/2019/12/huevos-racheros-770x628_6509.jpg',
     category: 'Desayuno',
     calories: 320,
     protein: 18,
     carbs: 24,
     fat: 16,
-    tags: ['alto en proteína', 'vegetariano']
+    tags: ['alto en proteína', 'vegetariano'],
+    ingredients: [
+      'Tortillas de maíz',
+      'Huevos frescos',
+      'Frijoles refritos',
+      'Jitomates grandes',
+      'Cebolla blanca',
+      'Chiles serranos',
+      'Ajo',
+      'Queso fresco',
+      'Crema mexicana',
+      'Cilantro fresco',
+      'Sal'
+    ]
   },
   {
     id: 2,
     title: 'Tacos de Pescado al Pastor',
     time: '25 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=1000',
-    category: 'Almuerzo',
+    image: 'https://www.nutrioli.com/wp-content/uploads/2016/07/Tacos-de-pescado-al-pastor-1.jpg',
+    category: 'Comida',
     calories: 380,
     protein: 28,
     carbs: 32,
     fat: 14,
-    tags: ['alto en proteína', 'bajo en carbos']
+    tags: ['alto en proteína', 'bajo en carbos'],
+    ingredients: [
+      'Filete de pescado blanco',
+      'Tortillas de maíz',
+      'Piña',
+      'Cebolla morada',
+      'Chiles guajillo',
+      'Chile ancho',
+      'Ajo',
+      'Orégano',
+      'Comino',
+      'Naranjas',
+      'Cilantro',
+      'Cebolla',
+      'Salsa verde',
+      'Sal y pimienta'
+    ]
   },
   {
     id: 3,
     title: 'Mole Poblano con Pollo',
     time: '2 horas',
     difficulty: 'hard' as const,
-    image: 'https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1000',
+    image: 'https://cdn.recetasderechupete.com/wp-content/uploads/2023/03/Mole-poblano-con-arroz.jpg',
     category: 'Cena',
     calories: 450,
     protein: 35,
@@ -44,8 +101,8 @@ export const recipes = [
     title: 'Tres Leches Mexicana',
     time: '45 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1000',
-    category: 'Postre',
+    image: 'https://i.ytimg.com/vi/n0ymEFZJBho/maxresdefault.jpg',
+    category: 'Snack',
     calories: 320,
     protein: 8,
     carbs: 38,
@@ -57,7 +114,7 @@ export const recipes = [
     title: 'Chilaquiles Verdes',
     time: '30 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?q=80&w=1000',
+    image: chilaquilesVerdes,
     category: 'Desayuno',
     calories: 290,
     protein: 16,
@@ -70,7 +127,7 @@ export const recipes = [
     title: 'Cochinita Pibil Yucateca',
     time: '3 horas',
     difficulty: 'hard' as const,
-    image: 'https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?q=80&w=1000',
+    image: 'https://www.gob.mx/cms/uploads/article/main_image/25270/blog-cochinita-22-sep-fb.jpg',
     category: 'Cena',
     calories: 520,
     protein: 42,
@@ -83,8 +140,8 @@ export const recipes = [
     title: 'Bowl de Quinoa con Nopales',
     time: '25 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1000',
-    category: 'Almuerzo',
+    image: 'https://cdn7.kiwilimon.com/recetaimagen/32317/640x640/37361.jpg.webp',
+    category: 'Comida',
     calories: 350,
     protein: 15,
     carbs: 42,
@@ -96,8 +153,8 @@ export const recipes = [
     title: 'Ensalada de Pollo con Aguacate',
     time: '15 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?q=80&w=1000',
-    category: 'Almuerzo',
+    image: ensaladaPolloAguacate,
+    category: 'Comida',
     calories: 380,
     protein: 32,
     carbs: 8,
@@ -109,7 +166,7 @@ export const recipes = [
     title: 'Agua de Chía con Limón',
     time: '5 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=1000',
+    image: aguaChiaLimon,
     category: 'Desayuno',
     calories: 180,
     protein: 6,
@@ -122,7 +179,7 @@ export const recipes = [
     title: 'Frijoles Charros Picosos',
     time: '45 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1559314809-0f31657def5e?q=80&w=1000',
+    image: frijolesCharros,
     category: 'Cena',
     calories: 320,
     protein: 18,
@@ -135,7 +192,7 @@ export const recipes = [
     title: 'Bolitas de Amaranto',
     time: '15 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000',
+    image: bolitasAmaranto,
     category: 'Botana',
     calories: 140,
     protein: 6,
@@ -148,7 +205,7 @@ export const recipes = [
     title: 'Chiles Rellenos de Queso',
     time: '40 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1594737791203-c519cd2faa16?q=80&w=1000',
+    image: 'https://www.cocinavital.mx/wp-content/uploads/2019/05/chiles-rellenos-queso-capeados-caldillo-jitomate.jpg',
     category: 'Cena',
     calories: 420,
     protein: 22,
@@ -161,7 +218,7 @@ export const recipes = [
     title: 'Molletes con Frijoles',
     time: '15 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?q=80&w=1000',
+    image: molletesFrijoles,
     category: 'Desayuno',
     calories: 280,
     protein: 14,
@@ -174,7 +231,7 @@ export const recipes = [
     title: 'Pescado a la Veracruzana',
     time: '30 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?q=80&w=1000',
+    image: 'https://www.maricruzavalos.com/wp-content/uploads/2023/03/pescado-a-la-veracruzana-recipe.jpg',
     category: 'Cena',
     calories: 250,
     protein: 35,
@@ -187,8 +244,8 @@ export const recipes = [
     title: 'Tacos de Frijol y Nopales',
     time: '20 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?q=80&w=1000',
-    category: 'Almuerzo',
+    image: tacosFrijolNopales,
+    category: 'Comida',
     calories: 290,
     protein: 12,
     carbs: 48,
@@ -200,7 +257,7 @@ export const recipes = [
     title: 'Licuado de Plátano y Avena',
     time: '5 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?q=80&w=1000',
+    image: licuadoPlatanoAvena,
     category: 'Desayuno',
     calories: 320,
     protein: 12,
@@ -213,7 +270,7 @@ export const recipes = [
     title: 'Pollo en Salsa Verde',
     time: '45 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?q=80&w=1000',
+    image: 'https://cdn7.kiwilimon.com/recetaimagen/28688/640x640/29046.jpg.jpg',
     category: 'Cena',
     calories: 380,
     protein: 38,
@@ -226,8 +283,8 @@ export const recipes = [
     title: 'Sopa de Tortilla Mexicana',
     time: '35 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=1000',
-    category: 'Almuerzo',
+    image: sopaTortilla,
+    category: 'Comida',
     calories: 220,
     protein: 12,
     carbs: 28,
@@ -239,8 +296,8 @@ export const recipes = [
     title: 'Brownies de Chocolate Mexicano',
     time: '35 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=1000',
-    category: 'Postre',
+    image: browniesChocolate,
+    category: 'Snack',
     calories: 280,
     protein: 6,
     carbs: 32,
@@ -252,8 +309,8 @@ export const recipes = [
     title: 'Wraps de Lechuga con Pollo',
     time: '15 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1604467707321-70d5ac45adda?q=80&w=1000',
-    category: 'Almuerzo',
+    image: 'https://d36fw6y2wq3bat.cloudfront.net/recipes/wraps-de-lechuga-rellenos-de-pollo-con-arroz/600/wraps-de-lechuga-rellenos-de-pollo-con-arroz_version_1675943436.jpg',
+    category: 'Comida',
     calories: 200,
     protein: 28,
     carbs: 6,
@@ -265,7 +322,7 @@ export const recipes = [
     title: 'Hotcakes de Avena Integral',
     time: '15 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?q=80&w=1000',
+    image: 'https://granvita.com/wp-content/uploads/2020/06/receta_hot_cakes_avena_platano.jpg',
     category: 'Desayuno',
     calories: 250,
     protein: 12,
@@ -278,7 +335,7 @@ export const recipes = [
     title: 'Hongos Portobello Rellenos',
     time: '25 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?q=80&w=1000',
+    image: 'https://resizer.glanacion.com/resizer/v2/portobellos-rellenos-con-SP3IYHRIWRAKLBYG47ABNPBDNM.jpg?auth=a941457d473d3622d9d39b632066b3f1ac941ab3ab0128c42f4f85f136af42ef&width=1280&height=854&quality=70&smart=true',
     category: 'Cena',
     calories: 180,
     protein: 12,
@@ -291,8 +348,8 @@ export const recipes = [
     title: 'Bowl Mexicano de Pollo',
     time: '20 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1529059997568-3d847b1154f0?q=80&w=1000',
-    category: 'Almuerzo',
+    image: 'https://kikkomanusa.com/sabor/wp-content/uploads/sites/6/2023/02/Chicken-Burrito-Bowls_Kikkoman.webp',
+    category: 'Comida',
     calories: 420,
     protein: 35,
     carbs: 32,
@@ -304,7 +361,7 @@ export const recipes = [
     title: 'Coliflor Gratinada Baja en Carbos',
     time: '35 min',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?q=80&w=1000',
+    image: coliflorGratinada,
     category: 'Cena',
     calories: 220,
     protein: 16,
@@ -317,7 +374,7 @@ export const recipes = [
     title: 'Barritas de Granola Casera',
     time: '20 min',
     difficulty: 'easy' as const,
-    image: 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?q=80&w=1000',
+    image: barritasGranola,
     category: 'Botana',
     calories: 180,
     protein: 6,
@@ -330,8 +387,8 @@ export const recipes = [
     title: 'Flan de Vainilla Mexicano',
     time: '4 horas',
     difficulty: 'medium' as const,
-    image: 'https://images.unsplash.com/photo-1488477304112-4944851de03d?q=80&w=1000',
-    category: 'Postre',
+    image: flanVainilla,
+    category: 'Snack',
     calories: 240,
     protein: 8,
     carbs: 28,

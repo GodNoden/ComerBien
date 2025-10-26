@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { UserRound, LogIn, UserPlus, LogOut } from 'lucide-react';
@@ -18,51 +19,51 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-primary">ComerBien</h1>
+            <a href='/' className="text-2xl font-bold text-primary">ComerBien</a>
           </div>
 
           <div className="flex items-center space-x-2">
             {!isLoggedIn ? (
               <>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={() => navigate('/login')}
                   className="hover:bg-primary/10"
                 >
                   <LogIn className="h-4 w-4 mr-2" />
-                  Ingresa
+                  Iniciar Sesión
                 </Button>
-                
-                <Button 
+
+                <Button
                   size="sm"
                   onClick={() => navigate('/register')}
                   className="bg-primary hover:bg-primary/90"
                 >
                   <UserPlus className="h-4 w-4 mr-2" />
-                  Registrate
+                  Registrarse
                 </Button>
               </>
             ) : (
               <>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="rounded-full hover:bg-primary/10"
                   aria-label="User profile"
                   onClick={() => navigate('/profile')}
                 >
                   <UserRound className="h-5 w-5 text-primary" />
                 </Button>
-                
-                <Button 
-                  variant="outline" 
+
+                <Button
+                  variant="outline"
                   size="sm"
                   onClick={handleLogout}
                   className="hover:bg-primary/10"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+                  Cerrar Sesión
                 </Button>
               </>
             )}

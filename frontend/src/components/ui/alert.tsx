@@ -11,20 +11,10 @@ const alertVariants = cva(
                 default: "bg-background text-foreground",
                 destructive:
                     "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-                // Nuevas variantes para el WeeklyMenu
-                info: "bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950 dark:border-blue-800 dark:text-blue-200",
-                warning: "bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-950 dark:border-amber-800 dark:text-amber-200 [&>svg]:text-amber-600",
-                success: "bg-green-50 border-green-200 text-green-800 dark:bg-green-950 dark:border-green-800 dark:text-green-200",
-            },
-            size: {
-                default: "p-4",
-                sm: "p-2 text-xs",
-                lg: "p-6",
             },
         },
         defaultVariants: {
             variant: "default",
-            size: "default",
         },
     }
 );
@@ -32,18 +22,18 @@ const alertVariants = cva(
 const Alert = React.forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, size, ...props }, ref) => (
+>(({ className, variant, ...props }, ref) => (
     <div
         ref={ref}
         role="alert"
-        className={cn(alertVariants({ variant, size }), className)}
+        className={cn(alertVariants({ variant }), className)}
         {...props}
     />
 ));
 Alert.displayName = "Alert";
 
 const AlertTitle = React.forwardRef<
-    HTMLHeadingElement,
+    HTMLParagraphElement,
     React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
     <h5
@@ -55,8 +45,8 @@ const AlertTitle = React.forwardRef<
 AlertTitle.displayName = "AlertTitle";
 
 const AlertDescription = React.forwardRef<
-    HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>
+    HTMLParagraphElement,
+    React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
     <div
         ref={ref}
@@ -66,5 +56,4 @@ const AlertDescription = React.forwardRef<
 ));
 AlertDescription.displayName = "AlertDescription";
 
-export { Alert, AlertTitle, AlertDescription, alertVariants };
-export type { VariantProps } from "class-variance-authority";
+export { Alert, AlertTitle, AlertDescription };

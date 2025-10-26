@@ -12,30 +12,30 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 
 const commonAllergens = [
-    'Milk',
-    'Eggs',
-    'Fish',
-    'Shellfish',
-    'Tree nuts',
-    'Peanuts',
-    'Wheat',
-    'Soybeans',
-    'Sesame'
+    'Leche',
+    'Huevos',
+    'Pescado',
+    'Mariscos',
+    'Nueces',
+    'Cacahuates',
+    'Trigo/Gluten',
+    'Soya',
+    'Ajonjolí'
 ];
 
 const commonDislikes = [
-    'Mushrooms',
-    'Onions',
-    'Garlic',
     'Cilantro',
-    'Olives',
-    'Tomatoes',
-    'Peppers',
-    'Coconut',
-    'Spicy food',
-    'Seafood',
-    'Red meat',
-    'Dairy'
+    'Cebolla',
+    'Ajo',
+    'Chile picante',
+    'Aguacate',
+    'Jitomate',
+    'Frijoles',
+    'Queso',
+    'Crema',
+    'Nopales',
+    'Epazote',
+    'Chiles en vinagre'
 ];
 
 const Profile = () => {
@@ -44,7 +44,6 @@ const Profile = () => {
     const [allergies, setAllergies] = useState<string[]>([]);
     const [dislikes, setDislikes] = useState<string[]>([]);
 
-    // Personal information for calorie calculation
     const [personalInfo, setPersonalInfo] = useState({
         age: '',
         height: '',
@@ -54,7 +53,6 @@ const Profile = () => {
         weightGoal: 'maintain' // gain, lose, maintain
     });
 
-    // Load existing profile data on component mount
     useEffect(() => {
         const savedProfile = localStorage.getItem('userProfile');
         if (savedProfile) {
@@ -76,7 +74,6 @@ const Profile = () => {
             return 0;
         }
 
-        // Calculate BMR using Mifflin-St Jeor Equation
         let bmr = 0;
         if (gender === 'male') {
             bmr = 10 * parseFloat(weight) + 6.25 * parseFloat(height) - 5 * parseFloat(age) + 5;
@@ -84,7 +81,6 @@ const Profile = () => {
             bmr = 10 * parseFloat(weight) + 6.25 * parseFloat(height) - 5 * parseFloat(age) - 161;
         }
 
-        // Apply activity factor
         const activityFactors: { [key: string]: number; } = {
             'sedentary': 1.2,
             'light': 1.375,
@@ -95,11 +91,10 @@ const Profile = () => {
 
         let maintenanceCalories = Math.round(bmr * activityFactors[activityLevel]);
 
-        // Adjust calories based on weight goal
         if (weightGoal === 'lose') {
-            maintenanceCalories -= 500; // 1 lb per week loss
+            maintenanceCalories -= 500;
         } else if (weightGoal === 'gain') {
-            maintenanceCalories += 500; // 1 lb per week gain
+            maintenanceCalories += 500;
         }
 
         return maintenanceCalories;
@@ -134,14 +129,15 @@ const Profile = () => {
             lastSaved: new Date().toISOString()
         };
 
-        // Save to localStorage
         localStorage.setItem('userProfile', JSON.stringify(profileData));
+
+        window.dispatchEvent(new CustomEvent('profileUpdated'));
 
         console.log('Profile saved:', profileData);
 
         toast({
-            title: "Profile saved successfully!",
-            description: "Your preferences and data have been saved. You won't need to re-enter them next time.",
+            title: "¡Perfil guardado exitosamente!",
+            description: "Tus preferencias y datos han sido guardados. No necesitarás volver a ingresarlos la próxima vez.",
         });
     };
 
@@ -177,7 +173,7 @@ const Profile = () => {
                             >
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <h1 className="text-xl font-semibold text-gray-900">Profile Settings</h1>
+                            <h1 className="text-xl font-semibold text-gray-900">Configuración de Perfil</h1>
                         </div>
                         <Button
                             onClick={handleSave}
@@ -187,7 +183,7 @@ const Profile = () => {
                                 }`}
                         >
                             <Save className="h-4 w-4 mr-2" />
-                            {hasUnsavedChanges() ? 'Save Changes' : 'Saved ✓'}
+                            {hasUnsavedChanges() ? 'Guardar Cambios' : 'Guardado ✓'}
                         </Button>
                     </div>
                 </div>
@@ -195,20 +191,19 @@ const Profile = () => {
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Personal Information Section */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-blue-600 flex items-center gap-2">
-                                📊 Personal Information
+                                📊 Información Personal
                             </CardTitle>
                             <p className="text-sm text-gray-600">
-                                Enter your personal details to calculate your recommended daily calorie intake.
+                                Ingresa tus datos personales para calcular tu ingesta diaria recomendada de calorías.
                             </p>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <Label htmlFor="age">Age</Label>
+                                    <Label htmlFor="age">Edad</Label>
                                     <Input
                                         id="age"
                                         type="number"
@@ -218,7 +213,7 @@ const Profile = () => {
                                     />
                                 </div>
                                 <div>
-                                    <Label htmlFor="weight">Weight (kg)</Label>
+                                    <Label htmlFor="weight">Peso (kg)</Label>
                                     <Input
                                         id="weight"
                                         type="number"
@@ -230,7 +225,7 @@ const Profile = () => {
                             </div>
 
                             <div>
-                                <Label htmlFor="height">Height (cm)</Label>
+                                <Label htmlFor="height">Estatura (cm)</Label>
                                 <Input
                                     id="height"
                                     type="number"
@@ -241,36 +236,36 @@ const Profile = () => {
                             </div>
 
                             <div>
-                                <Label htmlFor="gender">Gender</Label>
+                                <Label htmlFor="gender">Género</Label>
                                 <Select value={personalInfo.gender} onValueChange={(value) => handlePersonalInfoChange('gender', value)}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select gender" />
+                                        <SelectValue placeholder="Selecciona género" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="male">Male</SelectItem>
-                                        <SelectItem value="female">Female</SelectItem>
+                                        <SelectItem value="male">Masculino</SelectItem>
+                                        <SelectItem value="female">Femenino</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div>
-                                <Label htmlFor="activity">Activity Level</Label>
+                                <Label htmlFor="activity">Nivel de Actividad</Label>
                                 <Select value={personalInfo.activityLevel} onValueChange={(value) => handlePersonalInfoChange('activityLevel', value)}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select activity level" />
+                                        <SelectValue placeholder="Selecciona nivel de actividad" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="sedentary">Sedentary (little/no exercise)</SelectItem>
-                                        <SelectItem value="light">Light (1-3 days/week)</SelectItem>
-                                        <SelectItem value="moderate">Moderate (3-5 days/week)</SelectItem>
-                                        <SelectItem value="very">Very active (6-7 days/week)</SelectItem>
-                                        <SelectItem value="extreme">Extremely active (2x/day)</SelectItem>
+                                        <SelectItem value="sedentary">Sedentario (poco/nada de ejercicio)</SelectItem>
+                                        <SelectItem value="light">Ligero (1-3 días/semana)</SelectItem>
+                                        <SelectItem value="moderate">Moderado (3-5 días/semana)</SelectItem>
+                                        <SelectItem value="very">Muy activo (6-7 días/semana)</SelectItem>
+                                        <SelectItem value="extreme">Extremadamente activo (2x/día)</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div>
-                                <Label>Weight Goal</Label>
+                                <Label>Objetivo de Peso</Label>
                                 <RadioGroup
                                     value={personalInfo.weightGoal}
                                     onValueChange={(value) => handlePersonalInfoChange('weightGoal', value)}
@@ -278,15 +273,15 @@ const Profile = () => {
                                 >
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="lose" id="lose" />
-                                        <label htmlFor="lose" className="text-sm font-medium">Lose Weight (-500 cal/day)</label>
+                                        <label htmlFor="lose" className="text-sm font-medium">Perder Peso (-500 cal/día)</label>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="maintain" id="maintain" />
-                                        <label htmlFor="maintain" className="text-sm font-medium">Maintain Weight</label>
+                                        <label htmlFor="maintain" className="text-sm font-medium">Mantener Peso</label>
                                     </div>
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem value="gain" id="gain" />
-                                        <label htmlFor="gain" className="text-sm font-medium">Gain Weight (+500 cal/day)</label>
+                                        <label htmlFor="gain" className="text-sm font-medium">Subir Peso (+500 cal/día)</label>
                                     </div>
                                 </RadioGroup>
                             </div>
@@ -294,29 +289,28 @@ const Profile = () => {
                             {recommendedCalories > 0 && (
                                 <div className="bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-lg border border-blue-200">
                                     <h4 className="font-medium text-blue-800 mb-1">
-                                        {personalInfo.weightGoal === 'lose' && 'Weight Loss Goal'}
-                                        {personalInfo.weightGoal === 'gain' && 'Weight Gain Goal'}
-                                        {personalInfo.weightGoal === 'maintain' && 'Maintenance Goal'}
+                                        {personalInfo.weightGoal === 'lose' && 'Objetivo de Pérdida de Peso'}
+                                        {personalInfo.weightGoal === 'gain' && 'Objetivo de Ganancia de Peso'}
+                                        {personalInfo.weightGoal === 'maintain' && 'Objetivo de Mantenimiento'}
                                     </h4>
-                                    <p className="text-2xl font-bold text-blue-600">{recommendedCalories} calories/day</p>
+                                    <p className="text-2xl font-bold text-blue-600">{recommendedCalories} calorías/día</p>
                                     <p className="text-sm text-blue-700 mt-1">
-                                        {personalInfo.weightGoal === 'lose' && 'For healthy 1 lb/week weight loss'}
-                                        {personalInfo.weightGoal === 'gain' && 'For healthy 1 lb/week weight gain'}
-                                        {personalInfo.weightGoal === 'maintain' && 'To maintain your current weight'}
+                                        {personalInfo.weightGoal === 'lose' && 'Para una pérdida saludable de 0.5 kg/semana'}
+                                        {personalInfo.weightGoal === 'gain' && 'Para una ganancia saludable de 0.5 kg/semana'}
+                                        {personalInfo.weightGoal === 'maintain' && 'Para mantener tu peso actual'}
                                     </p>
                                 </div>
                             )}
                         </CardContent>
                     </Card>
 
-                    {/* Allergies Section */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-red-600 flex items-center gap-2">
-                                ⚠️ Allergies & Intolerances
+                                ⚠️ Alergias e Intolerancias
                             </CardTitle>
                             <p className="text-sm text-gray-600">
-                                Select any food allergies or intolerances you have. These ingredients will be avoided in recipe recommendations.
+                                Selecciona cualquier alergia o intolerancia alimentaria que tengas. Estos ingredientes se evitarán en las recomendaciones de recetas.
                             </p>
                         </CardHeader>
                         <CardContent>
@@ -340,14 +334,13 @@ const Profile = () => {
                         </CardContent>
                     </Card>
 
-                    {/* Dislikes Section */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-orange-600 flex items-center gap-2">
-                                👎 Food Dislikes
+                                👎 Ingredientes que No Me Gustan
                             </CardTitle>
                             <p className="text-sm text-gray-600">
-                                Select foods you don't like. We'll try to minimize these in your recipe suggestions.
+                                Selecciona ingredientes que no te gustan. Trataremos de minimizar estos en tus sugerencias de recetas.
                             </p>
                         </CardHeader>
                         <CardContent>
@@ -372,25 +365,24 @@ const Profile = () => {
                     </Card>
                 </div>
 
-                {/* Summary Section */}
                 {(allergies.length > 0 || dislikes.length > 0 || recommendedCalories > 0) && (
                     <Card className="mt-6">
                         <CardHeader>
-                            <CardTitle>Your Preferences Summary</CardTitle>
+                            <CardTitle>Resumen de tus Preferencias</CardTitle>
                         </CardHeader>
                         <CardContent>
                             {recommendedCalories > 0 && (
                                 <div className="mb-4">
-                                    <h4 className="font-medium text-blue-600 mb-2">Daily Calorie Goal:</h4>
+                                    <h4 className="font-medium text-blue-600 mb-2">Meta Diaria de Calorías:</h4>
                                     <span className="bg-blue-100 text-blue-800 px-3 py-2 rounded-full text-lg font-semibold">
-                                        {recommendedCalories} calories
+                                        {recommendedCalories} calorías
                                     </span>
                                 </div>
                             )}
 
                             {allergies.length > 0 && (
                                 <div className="mb-4">
-                                    <h4 className="font-medium text-red-600 mb-2">Allergies & Intolerances:</h4>
+                                    <h4 className="font-medium text-red-600 mb-2">Alergias e Intolerancias:</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {allergies.map((allergen) => (
                                             <span
@@ -406,7 +398,7 @@ const Profile = () => {
 
                             {dislikes.length > 0 && (
                                 <div className="mb-4">
-                                    <h4 className="font-medium text-orange-600 mb-2">Food Dislikes:</h4>
+                                    <h4 className="font-medium text-orange-600 mb-2">Ingredientes que No Me Gustan:</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {dislikes.map((dislike) => (
                                             <span
@@ -423,23 +415,22 @@ const Profile = () => {
                     </Card>
                 )}
 
-                {/* Save Section */}
                 <Card className="mt-6 bg-gradient-to-r from-blue-50 to-green-50 border-blue-200">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h3 className="text-lg font-semibold text-gray-900 mb-2">Save Your Profile</h3>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">Guarda tu Perfil</h3>
                                 <p className="text-sm text-gray-600">
                                     {hasUnsavedChanges()
-                                        ? "You have unsaved changes. Click save to store your preferences permanently."
-                                        : "Your profile is saved. All your preferences will be remembered when you return."
+                                        ? "Tienes cambios sin guardar. Haz clic en guardar para almacenar tus preferencias permanentemente."
+                                        : "Tu perfil está guardado. Todas tus preferencias serán recordadas cuando regreses."
                                     }
                                 </p>
                             </div>
                             <div className="flex gap-3">
                                 {hasUnsavedChanges() && (
                                     <div className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
-                                        Unsaved Changes
+                                        Cambios Sin Guardar
                                     </div>
                                 )}
                                 <Button
@@ -451,7 +442,7 @@ const Profile = () => {
                                         }`}
                                 >
                                     <Save className="h-5 w-5 mr-2" />
-                                    {hasUnsavedChanges() ? 'Save All Changes' : 'Profile Saved ✓'}
+                                    {hasUnsavedChanges() ? 'Guardar Todos los Cambios' : 'Perfil Guardado ✓'}
                                 </Button>
                             </div>
                         </div>

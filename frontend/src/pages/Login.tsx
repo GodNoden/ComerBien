@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,17 +16,17 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (login(username, password)) {
       toast({
-        title: "Success",
-        description: "Login Existoso!",
+        title: "Éxito",
+        description: "¡Has iniciado sesión correctamente!",
       });
       navigate('/');
     } else {
       toast({
         title: "Error",
-        description: "Credenciales incorrectas. Inténtalo de nuevo.",
+        description: "Credenciales inválidas. Prueba usuario: 'user' y contraseña: 'password'",
         variant: "destructive",
       });
     }
@@ -35,17 +36,17 @@ const Login = () => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-primary">¡Bienvenido de vuelta!</CardTitle>
-          <CardDescription>Ingresa a tu cuenta</CardDescription>
+          <CardTitle className="text-2xl font-bold text-primary">Bienvenido de Vuelta</CardTitle>
+          <CardDescription>Inicia sesión en tu cuenta de CocinaFit</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="username" className="text-sm font-medium">Nombre</label>
-              <Input 
-                id="username" 
-                type="text" 
-                placeholder="Correo o nombre de usuario" 
+              <label htmlFor="username" className="text-sm font-medium">Usuario</label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Ingresa tu usuario (prueba: user)"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -53,22 +54,22 @@ const Login = () => {
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">Contraseña</label>
-              <Input 
-                id="password" 
-                type="password" 
-                placeholder="Contraseña" 
+              <Input
+                id="password"
+                type="password"
+                placeholder="Ingresa tu contraseña (prueba: password)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
             <Button type="submit" className="w-full">
-              Sign In
+              Iniciar Sesión
             </Button>
           </form>
           <div className="text-center text-sm">
             <Link to="/register" className="text-primary hover:underline">
-              No tienes una cuenta? Regístrate!
+              ¿No tienes cuenta? Regístrate
             </Link>
           </div>
         </CardContent>

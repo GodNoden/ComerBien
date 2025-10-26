@@ -42,7 +42,7 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
     });
 
     const totalMacros = totalProtein + totalCarbs + totalFat;
-    
+
     return {
       calories: totalCalories,
       protein: totalMacros > 0 ? Math.round((totalProtein / totalMacros) * 100) : 0,
@@ -56,22 +56,11 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
   const renderMealSection = (mealType: 'desayuno' | 'comida' | 'cena' | 'snack', title: string) => {
     // Add null check for dayMeals and specific meal type
     const meals = dayMeals?.[mealType] || [];
-    
-    const getMealIcon = () => {
-      switch (mealType) {
-        case 'desayuno': return '';
-        case 'comida': return '';
-        case 'cena': return '';
-        case 'snack': return '';
-        default: return '🍽️';
-      }
-    };
-    
+
     return (
       <div className="mb-6 animate-fade-in">
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-lg">{getMealIcon()}</span>
             <h4 className="font-semibold text-sm text-gray-800 capitalize">{title}</h4>
             {meals.length > 0 && (
               <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-medium">
@@ -88,11 +77,11 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
             <Plus className="h-4 w-4" />
           </Button>
         </div>
-        
+
         <div className="space-y-3">
           {meals.map((recipe, index) => (
-            <div 
-              key={`${recipe.id}-${index}`} 
+            <div
+              key={`${recipe.id}-${index}`}
               className="group flex items-center justify-between bg-gradient-to-r from-white to-gray-50 p-3 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-primary/20 transition-all duration-200 animate-scale-in"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -107,7 +96,7 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
                   <div className="flex gap-2 text-xs text-muted-foreground">
                     <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded">P: {recipe.protein}g</span>
                     <span className="bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded">C: {recipe.carbs}g</span>
-                    <span className="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded">F: {recipe.fat}g</span>
+                    <span className="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded">G: {recipe.fat}g</span>
                   </div>
                 </div>
               </div>
@@ -121,15 +110,15 @@ const WeeklyMenuDay = ({ day, dayMeals, onAddMeal, onRemoveMeal }: WeeklyMenuDay
               </Button>
             </div>
           ))}
-          
+
           {meals.length === 0 && (
             <div className="text-center py-6 text-gray-400 bg-gray-50/50 rounded-lg border-2 border-dashed border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 cursor-pointer"
-                 onClick={() => onAddMeal(mealType)}>
+              onClick={() => onAddMeal(mealType)}>
               <div className="flex flex-col items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                   <Plus className="h-4 w-4 text-gray-400" />
                 </div>
-                <p className="text-xs font-medium">Add {title.toLowerCase()}</p>
+                <p className="text-xs font-medium">Agregar {title.toLowerCase()}</p>
               </div>
             </div>
           )}

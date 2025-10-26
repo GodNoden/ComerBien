@@ -52,8 +52,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
-      {/* Nutrition Tips Banner */}
+
       <button
         onClick={() => navigate('/food-facts')}
         className="w-full bg-gradient-to-r from-food-soft-blue to-food-light-green py-8 hover:from-primary/10 hover:to-primary/20 transition-all duration-300 group"
@@ -84,11 +83,11 @@ const Index = () => {
           </div>
         </div>
       </button>
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <FeaturedRecipes />
       </main>
-      
+
       <ActionButtons />
       <InfoPopup />
     </div>

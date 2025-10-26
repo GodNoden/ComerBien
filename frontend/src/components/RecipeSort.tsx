@@ -25,9 +25,9 @@ const RecipeSort = ({ sortBy, onSortChange }: RecipeSortProps) => {
                 <SelectContent>
                     <SelectItem value="all">Todas las Recetas</SelectItem>
                     <SelectItem value="desayuno">Solo Desayuno</SelectItem>
-                    <SelectItem value="comida">Solo Almuerzo</SelectItem>
+                    <SelectItem value="comida">Solo Comida</SelectItem>
                     <SelectItem value="cena">Solo Cena</SelectItem>
-                    <SelectItem value="dessert">Solo Postre</SelectItem>
+                    <SelectItem value="dessert">Solo Snack</SelectItem>
                     <SelectItem value="low-carb">Bajos en Carbos</SelectItem>
                     <SelectItem value="high-carb">Altos en Carbos</SelectItem>
                     <SelectItem value="high-protein">Alto en Proteína</SelectItem>

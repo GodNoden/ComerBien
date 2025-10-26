@@ -31,7 +31,7 @@ const InfoPopup = () => {
   useEffect(() => {
     const lastShown = localStorage.getItem('foodtrack_tip_shown');
     const today = new Date().toDateString();
-    
+
     if (lastShown !== today) {
       const timer = setTimeout(() => {
         setIsOpen(true);
@@ -55,16 +55,16 @@ const InfoPopup = () => {
             </DialogTitle>
           </div>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           <p className="text-muted-foreground leading-relaxed">
             {randomFact.fact}
           </p>
-          
+
           <div className="pt-2 border-t">
             <p className="text-xs text-muted-foreground">
               Source: {" "}
-              <a 
+              <a
                 href={randomFact.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -74,10 +74,10 @@ const InfoPopup = () => {
               </a>
             </p>
           </div>
-          
+
           <div className="flex justify-between items-center pt-2">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
               onClick={() => {
                 setIsOpen(false);
@@ -87,8 +87,8 @@ const InfoPopup = () => {
             >
               See all facts
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => setIsOpen(false)}
             >
