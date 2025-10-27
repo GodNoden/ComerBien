@@ -4,7 +4,7 @@ public enum Tag {
     VEGETARIANA,
     VEGANA,
     ALTA_PROTEINA,
-    BAJOS_EN_CARBOS,
+    BAJO_EN_CARBOS,
     GLUTEN_FREE,
     SIN_LACTOSA,
     RAPIDA,

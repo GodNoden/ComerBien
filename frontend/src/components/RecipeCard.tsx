@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,19 +12,22 @@ import {
 } from '@/components/ui/context-menu';
 import { Heart, Calendar, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Difficulty, MealCategory, Tag } from '@/types';
 
 interface RecipeCardProps {
     id: number;
     title: string;
     time: string;
-    difficulty: 'fácil' | 'medio' | 'difícil';
-    image: string;
-    category: string;
-    calories?: number;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-    tags?: string[];
+    difficulty: Difficulty;
+    image?: string;
+    category: MealCategory;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    tags: Tag[];
+    ingredients?: string[];
+    instructions?: string;
     onAddToWeeklyMenu?: (recipeId: number, recipeTitle: string) => void;
 }
 
@@ -49,22 +51,39 @@ const RecipeCard = ({
         return favorites.includes(id);
     });
 
-    const difficultyColor = {
-        fácil: 'bg-green-100 text-green-800',
-        medio: 'bg-amber-100 text-amber-800',
-        difícil: 'bg-red-100 text-red-800'
+    // Mapeo de dificultad a español
+    const difficultyMap = {
+        [Difficulty.FACIL]: { text: 'fácil', color: 'bg-green-100 text-green-800' },
+        [Difficulty.MEDIO]: { text: 'medio', color: 'bg-amber-100 text-amber-800' },
+        [Difficulty.DIFICIL]: { text: 'difícil', color: 'bg-red-100 text-red-800' }
     };
 
-    const tagColors = {
-        'bajo en carbohidratos': 'bg-blue-100 text-blue-800',
-        'alto en carbohidratos': 'bg-orange-100 text-orange-800',
-        'alto en proteína': 'bg-purple-100 text-purple-800',
-        'vegetariano': 'bg-green-100 text-green-800',
-        'alto en grasas': 'bg-red-100 text-red-800',
-        'bajo en grasas': 'bg-cyan-100 text-cyan-800',
-        'sin gluten': 'bg-yellow-100 text-yellow-800',
-        'sin lácteos': 'bg-pink-100 text-pink-800',
-        'vegano': 'bg-emerald-100 text-emerald-800'
+    // Agrega un valor por defecto para dificultades desconocidas
+    const getDifficultyInfo = (diff: Difficulty) => {
+        return difficultyMap[diff] || { text: 'medio', color: 'bg-amber-100 text-amber-800' };
+    };
+
+
+    // Mapeo de categorías a español
+    const categoryMap = {
+        [MealCategory.DESAYUNO]: 'Desayuno',
+        [MealCategory.COMIDA]: 'Comida',
+        [MealCategory.CENA]: 'Cena',
+        [MealCategory.SNACK]: 'Snack'
+    };
+
+    // Mapeo de tags a español
+    const tagMap: { [key in Tag]: { text: string; color: string; } } = {
+        [Tag.VEGETARIANA]: { text: 'Vegetariano', color: 'bg-green-100 text-green-800' },
+        [Tag.VEGANA]: { text: 'Vegano', color: 'bg-emerald-100 text-emerald-800' },
+        [Tag.ALTA_PROTEINA]: { text: 'Alto en Proteína', color: 'bg-purple-100 text-purple-800' },
+        [Tag.BAJO_EN_CARBOS]: { text: 'Bajo en Carbos', color: 'bg-blue-100 text-blue-800' },
+        [Tag.GLUTEN_FREE]: { text: 'Sin Gluten', color: 'bg-yellow-100 text-yellow-800' },
+        [Tag.SIN_LACTOSA]: { text: 'Sin Lácteos', color: 'bg-pink-100 text-pink-800' },
+        [Tag.RAPIDA]: { text: 'Comida Rápida', color: 'bg-orange-100 text-orange-800' },
+        [Tag.KETO]: { text: 'Keto', color: 'bg-indigo-100 text-indigo-800' },
+        [Tag.ALTA_FIBRA]: { text: 'Alta Fibra', color: 'bg-teal-100 text-teal-800' },
+        [Tag.BAJO_EN_CALORIAS]: { text: 'Bajas Calorías', color: 'bg-cyan-100 text-cyan-800' }
     };
 
     const toggleFavorite = (e: React.MouseEvent) => {
@@ -101,6 +120,9 @@ const RecipeCard = ({
         }
     };
 
+    // Imagen por defecto si no hay imagen
+    const defaultImage = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80';
+
     return (
         <ContextMenu>
             <ContextMenuTrigger>
@@ -108,12 +130,12 @@ const RecipeCard = ({
                     <Card className="recipe-card h-full flex flex-col transition-transform duration-300 hover:shadow-md hover:-translate-y-1 relative">
                         <div className="relative h-48 overflow-hidden">
                             <img
-                                src={image}
+                                src={image || defaultImage}
                                 alt={title}
                                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                             />
                             <Badge className="absolute top-3 left-3 bg-white/80 text-food-purple hover:bg-white">
-                                {category}
+                                {categoryMap[category]}
                             </Badge>
                             <Button
                                 variant="ghost"
@@ -128,20 +150,18 @@ const RecipeCard = ({
                             <CardTitle className="text-lg font-bold line-clamp-1">{title}</CardTitle>
                             <CardDescription className="flex justify-between items-center">
                                 <span className="text-sm">{time}</span>
-                                <Badge variant="outline" className={`text-xs ${difficultyColor[difficulty]}`}>
-                                    {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                                <Badge variant="outline" className={`text-xs ${getDifficultyInfo(difficulty).color}`}>
+                                    {getDifficultyInfo(difficulty).text}
                                 </Badge>
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="flex-grow">
-                            {(calories || protein || carbs || fat) && (
-                                <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-3">
-                                    {calories && <div><span className="font-medium">Cal:</span> {calories}</div>}
-                                    {protein && <div><span className="font-medium">Proteína:</span> {protein}g</div>}
-                                    {carbs && <div><span className="font-medium">Carbos:</span> {carbs}g</div>}
-                                    {fat && <div><span className="font-medium">Grasas:</span> {fat}g</div>}
-                                </div>
-                            )}
+                            <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-3">
+                                <div><span className="font-medium">Cal:</span> {calories}</div>
+                                <div><span className="font-medium">Proteína:</span> {protein}g</div>
+                                <div><span className="font-medium">Carbos:</span> {carbs}g</div>
+                                <div><span className="font-medium">Grasas:</span> {fat}g</div>
+                            </div>
 
                             {tags.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mb-2">
@@ -149,9 +169,9 @@ const RecipeCard = ({
                                         <Badge
                                             key={tag}
                                             variant="outline"
-                                            className={`text-xs ${tagColors[tag as keyof typeof tagColors] || 'bg-gray-100 text-gray-800'}`}
+                                            className={`text-xs ${tagMap[tag]?.color || 'bg-gray-100 text-gray-800'}`}
                                         >
-                                            {tag}
+                                            {tagMap[tag]?.text || tag}
                                         </Badge>
                                     ))}
                                     {tags.length > 3 && (
@@ -163,7 +183,7 @@ const RecipeCard = ({
                             )}
 
                             <p className="text-sm text-gray-500 line-clamp-2">
-                                Una deliciosa receta perfecta para cualquier ocasión. ¡Prueba este platillo delicioso hoy!
+                                Una deliciosa receta perfecta para cualquier ocasión.
                             </p>
                         </CardContent>
                         <CardFooter className="pt-2">

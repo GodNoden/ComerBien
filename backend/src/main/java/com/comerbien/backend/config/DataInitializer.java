@@ -27,7 +27,7 @@ public class DataInitializer implements CommandLineRunner {
             testUser.setUsername("testuser");
             testUser.setEmail("test@example.com");
             testUser.setPassword(passwordEncoder.encode("password123"));
-            testUser.setDietaryPreferences(Arrays.asList(Tag.ALTA_PROTEINA, Tag.BAJOS_EN_CARBOS));
+            testUser.setDietaryPreferences(Arrays.asList(Tag.ALTA_PROTEINA, Tag.BAJO_EN_CARBOS));
             testUser.setExcludedIngredients(Arrays.asList("cebolla", "ajo"));
 
             userRepository.save(testUser);
